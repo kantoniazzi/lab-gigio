@@ -14,6 +14,7 @@ import 'package:gigio/domain/models/board.dart';
 import 'package:gigio/domain/models/button_action.dart';
 import 'package:gigio/domain/models/sentence.dart';
 import 'package:gigio/engines/speech/speech_provider.dart';
+import 'package:gigio/engines/telemetry/telemetry_service.dart';
 
 class CommunicationState {
   const CommunicationState({
@@ -57,11 +58,13 @@ class CommunicationState {
 class CommunicationController extends Notifier<CommunicationState?> {
   late final BoardRepository _repository;
   late final SpeechProvider _speech;
+  late final TelemetryService _telemetria;
 
   @override
   CommunicationState? build() {
     _repository = ref.read(boardRepositoryProvider);
     _speech = ref.read(speechProvider);
+    _telemetria = ref.read(telemetryProvider);
     return null; // null = ainda carregando
   }
 
@@ -70,11 +73,26 @@ class CommunicationController extends Notifier<CommunicationState?> {
     switch (result) {
       case Ok(:final value):
         state = CommunicationState(board: value, currentPageId: value.homePageId);
-        await _speech.initialize();
+        _telemetria.registrar(BoardEvent(
+          acao: 'carregado',
+          paginas: value.pages.length,
+          botoes: value.pages.values.fold<int>(
+              0, (t, p) => t + p.buttons.length + p.sidebar.length),
+        ));
+        final voz = await _speech.initialize();
+        _telemetria.registrar(VozEvent(
+          ok: voz.isOk,
+          motivo: voz.errorOrNull?.message,
+        ));
       case Err(:final error):
         // Sem board não há app. Este é o único erro verdadeiramente fatal.
         state = null;
         _fatalLoadError = error;
+        _telemetria.registrar(ErroEvent(
+          classe: 'BoardLoad',
+          mensagem: error.message,
+          fatal: true,
+        ));
     }
   }
 
@@ -85,6 +103,14 @@ class CommunicationController extends Notifier<CommunicationState?> {
   Future<void> press(AacButton button) async {
     final current = state;
     if (current == null) return;
+
+    // Id do botão e tipo da ação — nunca o rótulo nem o texto falado. Só sobe
+    // com consentimento parental; o TelemetryService descarta na origem.
+    _telemetria.registrar(ToqueEvent(
+      pagina: current.currentPageId,
+      botao: button.id,
+      acaoBotao: button.action.type,
+    ));
 
     switch (button.action) {
       case AddWordAction(:final word, :final spokenText):
@@ -111,6 +137,7 @@ class CommunicationController extends Notifier<CommunicationState?> {
           pageStack: [...current.pageStack, current.currentPageId],
           clearError: true,
         );
+        _telemetria.registrar(TelaEvent(targetPageId));
         // No PODD, navegar é falar. O parceiro de comunicação verbaliza cada
         // passo — "eu gosto", "voltar para a página 1" — e é isso que dá à
         // criança o retorno de que o toque foi registrado e o modelo da língua
@@ -207,6 +234,10 @@ final boardRepositoryProvider = Provider<BoardRepository>(
   (ref) => throw UnimplementedError(
     'boardRepositoryProvider precisa ser sobrescrito no ProviderScope.',
   ),
+);
+
+final telemetryProvider = Provider<TelemetryService>(
+  (ref) => const TelemetriaDesligada(),
 );
 
 final speechProvider = Provider<SpeechProvider>(

@@ -1,0 +1,8 @@
+name = "gigio-telemetria"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+# Credenciais NÃO ficam aqui. Configurar com:
+#   npx wrangler secret put DD_API_KEY
+[vars]
+DD_SITE = "datadoghq.com"

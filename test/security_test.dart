@@ -11,24 +11,59 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('privacidade', () {
-    test('o manifesto de release não concede acesso à internet', () {
-      final manifest =
-          File('android/app/src/main/AndroidManifest.xml').readAsStringSync();
+    test('só o módulo de telemetria faz rede', () {
+      // A permissão INTERNET existe desde a telemetria, então a garantia
+      // deixou de ser estrutural. Este teste é o que a substitui: nenhuma
+      // outra camada pode abrir conexão. Se o núcleo de comunicação ganhar
+      // acesso à rede, as frases da criança passam a poder vazar.
+      final infratores = <String>[];
+      const permitido = 'lib/engines/telemetry';
 
-      final concedeInternet = RegExp(
-        r'<uses-permission[^>]*android\.permission\.INTERNET(?![^>]*tools:node\s*=\s*"remove")',
-      ).hasMatch(manifest);
+      for (final file in Directory('lib')
+          .listSync(recursive: true)
+          .whereType<File>()
+          .where((f) => f.path.endsWith('.dart'))) {
+        if (file.path.contains(permitido)) continue;
+        final fonte = file.readAsStringSync();
+        for (final proibido in const [
+          "import 'dart:io'",
+          "package:http/",
+          'HttpClient(',
+          'WebSocket',
+        ]) {
+          // dart:io também serve para arquivo; só acusamos o uso de rede.
+          if (proibido == "import 'dart:io'" && !fonte.contains('HttpClient')) {
+            continue;
+          }
+          if (fonte.contains(proibido)) infratores.add('${file.path} -> $proibido');
+        }
+      }
 
-      expect(
-        concedeInternet,
-        isFalse,
-        reason: 'O Gigio é offline por decisão de privacidade: as frases de uma '
-            'criança são dado pessoal sensível (LGPD art. 11, art. 14). '
-            'Conceder INTERNET remove a garantia estrutural de que nada sai do '
-            'dispositivo. Se a sincronização em nuvem for mesmo desejada, esta '
-            'mudança precisa vir acompanhada de consentimento explícito do '
-            'responsável — e este teste deve ser reescrito conscientemente.',
-      );
+      expect(infratores, isEmpty,
+          reason: 'Rede fora de $permitido:\n  ${infratores.join('\n  ')}');
+    });
+
+    test('conteúdo de comunicação exige consentimento no modelo', () {
+      final fonte =
+          File('lib/engines/telemetry/telemetry_service.dart').readAsStringSync();
+
+      // Tela e toque revelam sobre o que a criança se comunicou; precisam estar
+      // marcados como conteúdo para o serviço poder barrá-los sem consentimento.
+      expect(fonte, contains('ehConteudoDeComunicacao'));
+      for (final classe in const ['TelaEvent', 'ToqueEvent']) {
+        final trecho = fonte.substring(fonte.indexOf('class $classe'));
+        expect(trecho.contains('ehConteudoDeComunicacao => true'), isTrue,
+            reason: '$classe precisa ser marcado como conteúdo de comunicação');
+      }
+    });
+
+    test('a telemetria nunca envia rótulo nem texto falado', () {
+      final fonte =
+          File('lib/engines/telemetry/telemetry_service.dart').readAsStringSync();
+      for (final proibido in const ['label', 'spokenText', 'displayText', 'rotulo']) {
+        expect(fonte.contains("'$proibido'"), isFalse,
+            reason: 'O campo $proibido é a fala da criança e não pode subir.');
+      }
     });
 
     test('nenhum SDK de telemetria ou analytics entrou no pubspec', () {

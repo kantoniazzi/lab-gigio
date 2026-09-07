@@ -11,11 +11,23 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gigio/core/design_system/tokens/gigio_tokens.dart';
 import 'package:gigio/data/json_board_store.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gigio/engines/speech/native_tts_provider.dart';
+import 'package:gigio/engines/telemetry/http_telemetry.dart';
+import 'package:gigio/engines/telemetry/telemetry_service.dart';
 import 'package:gigio/features/communication/communication_controller.dart';
 import 'package:gigio/features/communication/communication_screen.dart';
 
-void main() {
+/// Endpoint do Worker de telemetria, injetado em tempo de build:
+///   flutter build ios --dart-define=GIGIO_TELEMETRIA_URL=https://...
+///
+/// Vazio por padrão: uma build sem essa definição não faz rede nenhuma. Esquecer
+/// de configurar resulta em privacidade, e não em vazamento.
+const _telemetriaUrl = String.fromEnvironment('GIGIO_TELEMETRIA_URL');
+
+const _chaveConsentimento = 'gigio_consentimento_telemetria';
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Um app de CAA num iPad é usado deitado e em tela cheia: a interface de
@@ -31,14 +43,38 @@ void main() {
     DeviceOrientation.landscapeRight,
   ]);
 
+  final telemetria = await _construirTelemetria();
+
   runApp(
     ProviderScope(
       overrides: [
         boardRepositoryProvider.overrideWithValue(JsonBoardStore()),
         speechProvider.overrideWithValue(NativeTtsProvider()),
+        telemetryProvider.overrideWithValue(telemetria),
       ],
       child: const GigioApp(),
     ),
+  );
+}
+
+Future<TelemetryService> _construirTelemetria() async {
+  if (_telemetriaUrl.isEmpty) return const TelemetriaDesligada();
+
+  const cofre = FlutterSecureStorage();
+  var consentiu = false;
+  try {
+    consentiu = await cofre.read(key: _chaveConsentimento) == 'true';
+  } on Object {
+    // Falha ao ler o consentimento é tratada como ausência de consentimento.
+    consentiu = false;
+  }
+
+  return HttpTelemetry(
+    endpoint: _telemetriaUrl,
+    appVersion: '1.0.0',
+    consentimentoInicial: consentiu,
+    persistirConsentimento: (ativo) =>
+        cofre.write(key: _chaveConsentimento, value: ativo.toString()),
   );
 }
 

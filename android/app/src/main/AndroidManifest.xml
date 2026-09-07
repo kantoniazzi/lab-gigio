@@ -2,22 +2,27 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!--
-      NÃO DECLARAMOS android.permission.INTERNET, E ISSO É DELIBERADO.
+      REDE: concedida, e a garantia mudou de natureza.
 
-      As frases construídas por uma criança revelam condição de saúde: são dado
-      pessoal sensível sob a LGPD (art. 11), de titular criança (art. 14). O
-      Gigio é 100% offline, então o app é *incapaz* de vazar esses dados porque
-      é incapaz de acessar a rede — uma garantia bem mais forte que uma política
-      de privacidade.
+      Até a introdução da telemetria, o Gigio não declarava INTERNET, e isso
+      tornava o vazamento *estruturalmente impossível*: o app não conseguia
+      falar com a rede. Essa era a garantia mais forte que existia.
 
-      O `tools:node="remove"` abaixo impede que a fusão de manifestos de alguma
-      biblioteca reintroduza a permissão sem que alguém perceba.
+      Ao instrumentar com Datadog, a permissão passou a ser necessária. A
+      garantia agora é **verificada, e não estrutural** — mais fraca, e a troca
+      precisa estar registrada:
 
-      Se um dia entrar sincronização em nuvem ou ElevenLabs, esta remoção precisa
-      cair — e isso deve ser uma decisão consciente, com consentimento explícito
-      do responsável. Ver docs/architecture.md.
+      1. A rede é usada SÓ pelo módulo lib/engines/telemetry/. Nenhum board,
+         frase, rótulo ou foto atravessa essa fronteira.
+      2. O app envia apenas ao Worker do Cloudflare, que revalida cada evento
+         contra uma lista de campos permitidos antes de repassar ao Datadog.
+      3. Página e botão só sobem com consentimento parental explícito, desligado
+         por padrão.
+      4. test/security_test.dart verifica 1 e 3 no build.
+
+      Ver worker/src/index.js e docs/architecture.md.
     -->
-    <uses-permission android:name="android.permission.INTERNET" tools:node="remove" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:label="Gigio"

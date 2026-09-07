@@ -9,10 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gigio/core/design_system/tokens/gigio_tokens.dart';
 import 'package:gigio/features/editor/board_editor_screen.dart';
-import 'package:gigio/features/editor/caregiver_pin_service.dart';
-
-final caregiverPinServiceProvider =
-    Provider<CaregiverPinService>((ref) => CaregiverPinService());
+import 'package:gigio/features/settings/settings_screen.dart';
 
 class EditModeGate extends ConsumerStatefulWidget {
   const EditModeGate({super.key});
@@ -41,8 +38,34 @@ class _EditModeGateState extends ConsumerState<EditModeGate> {
       return;
     }
 
-    await Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => const BoardEditorScreen()),
+    if (!mounted) return;
+    await showModalBottomSheet<void>(
+      context: context,
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.grid_view),
+              title: const Text('Editar o board'),
+              onTap: () {
+                Navigator.of(sheetContext).pop();
+                Navigator.of(context).push(MaterialPageRoute<void>(
+                  builder: (_) => const BoardEditorScreen()));
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings_outlined),
+              title: const Text('Configurações'),
+              onTap: () {
+                Navigator.of(sheetContext).pop();
+                Navigator.of(context).push(MaterialPageRoute<void>(
+                  builder: (_) => const SettingsScreen()));
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 

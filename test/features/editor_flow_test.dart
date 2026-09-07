@@ -46,6 +46,13 @@ void main() {
     await tester.enterText(find.byType(TextField), pin);
     await tester.tap(find.text('Entrar'));
     await tester.pumpAndSettle();
+
+    // O gate agora abre um menu: editar o board ou configurações.
+    final menu = find.text('Editar o board');
+    if (menu.evaluate().isNotEmpty) {
+      await tester.tap(menu);
+      await tester.pumpAndSettle();
+    }
   }
 
   testWidgets('o editor exige PIN e recusa o errado', (tester) async {
