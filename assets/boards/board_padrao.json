@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "id": "gigio-padrao",
+  "name": "Board Inicial",
+  "homePageId": "home",
+  "pages": [
+    {
+      "id": "home",
+      "name": "Principal",
+      "rows": 4,
+      "columns": 5,
+      "buttons": [
+        { "id": "eu", "label": "eu", "position": [0, 0], "wordClass": "pronoun", "symbol": "eu", "action": { "type": "addWord", "word": "eu" } },
+        { "id": "voce", "label": "você", "position": [0, 1], "wordClass": "pronoun", "symbol": "voce", "action": { "type": "addWord", "word": "você" } },
+        { "id": "querer", "label": "quero", "position": [0, 2], "wordClass": "verb", "symbol": "querer", "action": { "type": "addWord", "word": "quero" } },
+        { "id": "gostar", "label": "gosto", "position": [0, 3], "wordClass": "verb", "symbol": "gostar", "action": { "type": "addWord", "word": "gosto" } },
+        { "id": "nao", "label": "não", "position": [0, 4], "wordClass": "negation", "symbol": "nao", "action": { "type": "addWord", "word": "não" } },
+
+        { "id": "mais", "label": "mais", "position": [1, 0], "wordClass": "adjective", "symbol": "mais", "action": { "type": "addWord", "word": "mais" } },
+        { "id": "acabou", "label": "acabou", "position": [1, 1], "wordClass": "negation", "symbol": "acabou", "action": { "type": "addWord", "word": "acabou" } },
+        { "id": "ir", "label": "ir", "position": [1, 2], "wordClass": "verb", "symbol": "ir", "action": { "type": "addWord", "word": "ir" } },
+        { "id": "ajudar", "label": "ajuda", "position": [1, 3], "wordClass": "verb", "symbol": "ajudar", "action": { "type": "addWord", "word": "ajuda" } },
+        { "id": "sim", "label": "sim", "position": [1, 4], "wordClass": "social", "symbol": "sim", "action": { "type": "addWord", "word": "sim" } },
+
+        { "id": "comer", "label": "comer", "position": [2, 0], "wordClass": "verb", "symbol": "comer", "action": { "type": "addWord", "word": "comer" } },
+        { "id": "beber", "label": "beber", "position": [2, 1], "wordClass": "verb", "symbol": "beber", "action": { "type": "addWord", "word": "beber" } },
+        { "id": "brincar", "label": "brincar", "position": [2, 2], "wordClass": "verb", "symbol": "brincar", "action": { "type": "addWord", "word": "brincar" } },
+        { "id": "banheiro", "label": "banheiro", "position": [2, 3], "wordClass": "noun", "symbol": "banheiro", "action": { "type": "addWord", "word": "banheiro" } },
+        { "id": "parar", "label": "pare", "position": [2, 4], "wordClass": "negation", "symbol": "parar", "action": { "type": "addWord", "word": "pare" } },
+
+        { "id": "cat-comida", "label": "Comida", "position": [3, 0], "wordClass": "category", "symbol": "comida", "action": { "type": "navigate", "target": "comida" } },
+        { "id": "cat-brincar", "label": "Brincar", "position": [3, 1], "wordClass": "category", "symbol": "brinquedo", "action": { "type": "navigate", "target": "brincar" } },
+        { "id": "cat-sentimentos", "label": "Sentimentos", "position": [3, 2], "wordClass": "category", "symbol": "sentimentos", "action": { "type": "navigate", "target": "sentimentos" } },
+        { "id": "cat-pessoas", "label": "Pessoas", "position": [3, 3], "wordClass": "category", "symbol": "pessoas", "action": { "type": "navigate", "target": "pessoas" } },
+        { "id": "cat-lugares", "label": "Lugares", "position": [3, 4], "wordClass": "category", "symbol": "lugares", "action": { "type": "navigate", "target": "lugares" } }
+      ]
+    },
+    {
+      "id": "comida",
+      "name": "Comida",
+      "rows": 3,
+      "columns": 4,
+      "buttons": [
+        { "id": "f-agua", "label": "água", "position": [0, 0], "wordClass": "noun", "symbol": "agua", "action": { "type": "addWord", "word": "água" } },
+        { "id": "f-leite", "label": "leite", "position": [0, 1], "wordClass": "noun", "symbol": "leite", "action": { "type": "addWord", "word": "leite" } },
+        { "id": "f-pao", "label": "pão", "position": [0, 2], "wordClass": "noun", "symbol": "pao", "action": { "type": "addWord", "word": "pão" } },
+        { "id": "f-comida", "label": "comida", "position": [0, 3], "wordClass": "noun", "symbol": "comida", "action": { "type": "addWord", "word": "comida" } },
+
+        { "id": "f-banana", "label": "banana", "position": [1, 0], "wordClass": "noun", "symbol": "banana", "action": { "type": "addWord", "word": "banana" } },
+        { "id": "f-maca", "label": "maçã", "position": [1, 1], "wordClass": "noun", "symbol": "maca", "action": { "type": "addWord", "word": "maçã" } },
+        { "id": "f-fome", "label": "fome", "position": [1, 2], "wordClass": "adjective", "symbol": "fome", "action": { "type": "addWord", "word": "estou com fome" } },
+        { "id": "f-sede", "label": "sede", "position": [1, 3], "wordClass": "adjective", "symbol": "sede", "action": { "type": "addWord", "word": "estou com sede" } },
+
+        { "id": "f-mais", "label": "mais", "position": [2, 0], "wordClass": "adjective", "symbol": "mais", "action": { "type": "addWord", "word": "mais" } },
+        { "id": "f-acabou", "label": "acabou", "position": [2, 1], "wordClass": "negation", "symbol": "acabou", "action": { "type": "addWord", "word": "acabou" } },
+        { "id": "f-voltar", "label": "voltar", "position": [2, 3], "wordClass": "system", "symbol": "voltar", "action": { "type": "back" } }
+      ]
+    },
+    {
+      "id": "brincar",
+      "name": "Brincar",
+      "rows": 3,
+      "columns": 4,
+      "buttons": [
+        { "id": "b-bola", "label": "bola", "position": [0, 0], "wordClass": "noun", "symbol": "bola", "action": { "type": "addWord", "word": "bola" } },
+        { "id": "b-brinquedo", "label": "brinquedo", "position": [0, 1], "wordClass": "noun", "symbol": "brinquedo", "action": { "type": "addWord", "word": "brinquedo" } },
+        { "id": "b-musica", "label": "música", "position": [0, 2], "wordClass": "noun", "symbol": "musica", "action": { "type": "addWord", "word": "música" } },
+        { "id": "b-tv", "label": "TV", "position": [0, 3], "wordClass": "noun", "symbol": "tv", "action": { "type": "addWord", "word": "televisão" } },
+
+        { "id": "b-carro", "label": "carro", "position": [1, 0], "wordClass": "noun", "symbol": "carro", "action": { "type": "addWord", "word": "carro" } },
+        { "id": "b-cachorro", "label": "cachorro", "position": [1, 1], "wordClass": "noun", "symbol": "cachorro", "action": { "type": "addWord", "word": "cachorro" } },
+        { "id": "b-gato", "label": "gato", "position": [1, 2], "wordClass": "noun", "symbol": "gato", "action": { "type": "addWord", "word": "gato" } },
+        { "id": "b-fora", "label": "lá fora", "position": [1, 3], "wordClass": "preposition", "symbol": "fora", "action": { "type": "addWord", "word": "lá fora" } },
+
+        { "id": "b-brincar", "label": "brincar", "position": [2, 0], "wordClass": "verb", "symbol": "brincar", "action": { "type": "addWord", "word": "brincar" } },
+        { "id": "b-ver", "label": "ver", "position": [2, 1], "wordClass": "verb", "symbol": "ver", "action": { "type": "addWord", "word": "ver" } },
+        { "id": "b-voltar", "label": "voltar", "position": [2, 3], "wordClass": "system", "symbol": "voltar", "action": { "type": "back" } }
+      ]
+    },
+    {
+      "id": "sentimentos",
+      "name": "Sentimentos",
+      "rows": 3,
+      "columns": 4,
+      "buttons": [
+        { "id": "s-feliz", "label": "feliz", "position": [0, 0], "wordClass": "adjective", "symbol": "feliz", "action": { "type": "addWord", "word": "feliz" } },
+        { "id": "s-triste", "label": "triste", "position": [0, 1], "wordClass": "adjective", "symbol": "triste", "action": { "type": "addWord", "word": "triste" } },
+        { "id": "s-bravo", "label": "bravo", "position": [0, 2], "wordClass": "adjective", "symbol": "bravo", "action": { "type": "addWord", "word": "bravo" } },
+        { "id": "s-cansado", "label": "cansado", "position": [0, 3], "wordClass": "adjective", "symbol": "cansado", "action": { "type": "addWord", "word": "cansado" } },
+
+        { "id": "s-dor", "label": "dói", "position": [1, 0], "wordClass": "adjective", "symbol": "dor", "action": { "type": "addWord", "word": "está doendo" } },
+        { "id": "s-frio", "label": "frio", "position": [1, 1], "wordClass": "adjective", "symbol": "frio", "action": { "type": "addWord", "word": "frio" } },
+        { "id": "s-quente", "label": "quente", "position": [1, 2], "wordClass": "adjective", "symbol": "quente", "action": { "type": "addWord", "word": "quente" } },
+        { "id": "s-abracar", "label": "abraço", "position": [1, 3], "wordClass": "verb", "symbol": "abracar", "action": { "type": "addWord", "word": "abraço" } },
+
+        { "id": "s-socorro", "label": "me ajuda!", "position": [2, 0], "wordClass": "social", "symbol": "ajudar", "action": { "type": "speak", "text": "Me ajuda, por favor!" } },
+        { "id": "s-dormir", "label": "dormir", "position": [2, 1], "wordClass": "verb", "symbol": "dormir", "action": { "type": "addWord", "word": "dormir" } },
+        { "id": "s-voltar", "label": "voltar", "position": [2, 3], "wordClass": "system", "symbol": "voltar", "action": { "type": "back" } }
+      ]
+    },
+    {
+      "id": "pessoas",
+      "name": "Pessoas",
+      "rows": 3,
+      "columns": 4,
+      "buttons": [
+        { "id": "p-mamae", "label": "mamãe", "position": [0, 0], "wordClass": "pronoun", "symbol": "mamae", "action": { "type": "addWord", "word": "mamãe" } },
+        { "id": "p-papai", "label": "papai", "position": [0, 1], "wordClass": "pronoun", "symbol": "papai", "action": { "type": "addWord", "word": "papai" } },
+        { "id": "p-eu", "label": "eu", "position": [0, 2], "wordClass": "pronoun", "symbol": "eu", "action": { "type": "addWord", "word": "eu" } },
+        { "id": "p-voce", "label": "você", "position": [0, 3], "wordClass": "pronoun", "symbol": "voce", "action": { "type": "addWord", "word": "você" } },
+
+        { "id": "p-oi", "label": "oi", "position": [1, 0], "wordClass": "social", "symbol": "obrigado", "action": { "type": "speak", "text": "Oi!" } },
+        { "id": "p-tchau", "label": "tchau", "position": [1, 1], "wordClass": "social", "symbol": "tchau", "action": { "type": "speak", "text": "Tchau!" } },
+        { "id": "p-obrigado", "label": "obrigado", "position": [1, 2], "wordClass": "social", "symbol": "obrigado", "action": { "type": "speak", "text": "Obrigado!" } },
+        { "id": "p-porfavor", "label": "por favor", "position": [1, 3], "wordClass": "social", "symbol": "por-favor", "action": { "type": "addWord", "word": "por favor" } },
+
+        { "id": "p-quem", "label": "quem", "position": [2, 0], "wordClass": "question", "symbol": "quem", "action": { "type": "addWord", "word": "quem" } },
+        { "id": "p-nos", "label": "nós", "position": [2, 1], "wordClass": "pronoun", "symbol": "nos", "action": { "type": "addWord", "word": "nós" } },
+        { "id": "p-voltar", "label": "voltar", "position": [2, 3], "wordClass": "system", "symbol": "voltar", "action": { "type": "back" } }
+      ]
+    },
+    {
+      "id": "lugares",
+      "name": "Lugares",
+      "rows": 3,
+      "columns": 4,
+      "buttons": [
+        { "id": "l-casa", "label": "casa", "position": [0, 0], "wordClass": "noun", "symbol": "casa", "action": { "type": "addWord", "word": "casa" } },
+        { "id": "l-escola", "label": "escola", "position": [0, 1], "wordClass": "noun", "symbol": "escola", "action": { "type": "addWord", "word": "escola" } },
+        { "id": "l-banheiro", "label": "banheiro", "position": [0, 2], "wordClass": "noun", "symbol": "banheiro", "action": { "type": "addWord", "word": "banheiro" } },
+        { "id": "l-fora", "label": "lá fora", "position": [0, 3], "wordClass": "preposition", "symbol": "fora", "action": { "type": "addWord", "word": "lá fora" } },
+
+        { "id": "l-banho", "label": "banho", "position": [1, 0], "wordClass": "noun", "symbol": "banho", "action": { "type": "addWord", "word": "banho" } },
+        { "id": "l-carro", "label": "carro", "position": [1, 1], "wordClass": "noun", "symbol": "carro", "action": { "type": "addWord", "word": "carro" } },
+        { "id": "l-onde", "label": "onde", "position": [1, 2], "wordClass": "question", "symbol": "onde", "action": { "type": "addWord", "word": "onde" } },
+        { "id": "l-ir", "label": "ir", "position": [1, 3], "wordClass": "verb", "symbol": "ir", "action": { "type": "addWord", "word": "ir" } },
+
+        { "id": "l-quero-ir", "label": "quero ir", "position": [2, 0], "wordClass": "social", "symbol": "ir", "action": { "type": "speak", "text": "Eu quero ir." } },
+        { "id": "l-quando", "label": "quando", "position": [2, 1], "wordClass": "question", "symbol": "quando", "action": { "type": "addWord", "word": "quando" } },
+        { "id": "l-voltar", "label": "voltar", "position": [2, 3], "wordClass": "system", "symbol": "voltar", "action": { "type": "back" } }
+      ]
+    }
+  ]
+}

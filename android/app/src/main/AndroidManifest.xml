@@ -1,6 +1,26 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+      NÃO DECLARAMOS android.permission.INTERNET, E ISSO É DELIBERADO.
+
+      As frases construídas por uma criança revelam condição de saúde: são dado
+      pessoal sensível sob a LGPD (art. 11), de titular criança (art. 14). O
+      Gigio é 100% offline, então o app é *incapaz* de vazar esses dados porque
+      é incapaz de acessar a rede — uma garantia bem mais forte que uma política
+      de privacidade.
+
+      O `tools:node="remove"` abaixo impede que a fusão de manifestos de alguma
+      biblioteca reintroduza a permissão sem que alguém perceba.
+
+      Se um dia entrar sincronização em nuvem ou ElevenLabs, esta remoção precisa
+      cair — e isso deve ser uma decisão consciente, com consentimento explícito
+      do responsável. Ver docs/architecture.md.
+    -->
+    <uses-permission android:name="android.permission.INTERNET" tools:node="remove" />
+
     <application
-        android:label="gigio"
+        android:label="Gigio"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
