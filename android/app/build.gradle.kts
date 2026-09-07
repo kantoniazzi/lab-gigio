@@ -6,7 +6,12 @@ plugins {
 
 android {
     namespace = "br.com.gigio.gigio"
-    compileSdk = flutter.compileSdkVersion
+    // Fixado em 37 porque o flutter_secure_storage (usado para guardar o hash
+    // do PIN do cuidador no Keystore) é compilado contra essa API. Manter o
+    // padrão do Flutter faria o build falhar na fusão de dependências.
+    // `compileSdk` só define contra qual API compilamos; `targetSdk` e
+    // `minSdk` seguem o padrão do Flutter.
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

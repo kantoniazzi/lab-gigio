@@ -6,7 +6,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gigio/core/result/result.dart';
 import 'package:gigio/data/json_board_store.dart';
 import 'package:gigio/domain/models/board.dart';
 

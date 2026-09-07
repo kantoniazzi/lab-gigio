@@ -52,3 +52,6 @@ _bmad/
 
 # Scratch
 *.log
+
+# Builds
+/build/
