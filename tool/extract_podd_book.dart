@@ -197,7 +197,7 @@ Future<File?> _renderPgm(String pdf, int page, Directory work) async {
   if (result.exitCode != 0) return null;
   for (final file in work.listSync().whereType<File>()) {
     final name = file.uri.pathSegments.last;
-    if (name.startsWith('geo_${page}-') && name.endsWith('.pgm')) return file;
+    if (name.startsWith("geo_$page-") && name.endsWith('.pgm')) return file;
   }
   return null;
 }

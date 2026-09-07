@@ -29,7 +29,7 @@ void main() {
 
   test('as páginas transcritas usam a grade 4x3 do livro', () {
     final transcritas = board.pages.values.where((p) => p.columns == 4);
-    expect(transcritas.length, 10);
+    expect(transcritas.length, 56);
     for (final page in transcritas) {
       expect(page.rows, 3, reason: 'Página ${page.id} fora da grade PODD');
     }
