@@ -111,9 +111,15 @@ class CommunicationController extends Notifier<CommunicationState?> {
           pageStack: [...current.pageStack, current.currentPageId],
           clearError: true,
         );
+        // No PODD, navegar é falar. O parceiro de comunicação verbaliza cada
+        // passo — "eu gosto", "voltar para a página 1" — e é isso que dá à
+        // criança o retorno de que o toque foi registrado e o modelo da língua
+        // que ela está construindo. Um botão mudo quebra os dois.
+        await _speak(button.label);
 
       case NavigateBackAction():
         goBack();
+        await _speak(button.label);
 
       case SpeakSentenceAction():
         await speakSentence();

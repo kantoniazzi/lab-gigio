@@ -22,19 +22,14 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 
-/// Geometria calibrada em `tool/analyze_podd_geometry.dart`, detectando as
-/// calhas de fundo cinza entre os cartões. Expressa em fração da página para
-/// ficar independente da resolução de renderização.
-const _refWidth = 1138.0;
-const _refHeight = 799.0;
+import 'podd_geometry.dart';
 
-const _columns = [(9, 199), (249, 445), (516, 716), (768, 972)];
-const _rows = [(34, 225), (284, 476), (532, 720)];
-const _sidebarColumn = (1019, 1129);
-
-/// A coluna lateral tem 3 posições que acompanham as mesmas faixas verticais
-/// das linhas da grade principal.
-const _sidebarRows = _rows;
+/// Layout da página PODD padrão: 4 colunas de grade + 1 coluna lateral,
+/// 3 linhas de grade + 1 faixa de abas. Detectar 5x4 significa página padrão;
+/// qualquer outra proporção é uma página de lista (comida, músicas, vídeos),
+/// que tem grade densa própria.
+const _standardColumns = 5;
+const _standardRows = 4;
 
 class Cell {
   Cell({required this.slot, required this.hash, required this.file});
@@ -68,6 +63,7 @@ Future<void> main(List<String> args) async {
   }
 
   final pages = <String, List<Cell>>{};
+  final layouts = <String, String>{};
   final seenHashes = <String>{};
   var cropCount = 0;
 
@@ -78,14 +74,26 @@ Future<void> main(List<String> args) async {
       continue;
     }
 
+    // Geometria medida nesta página, não assumida. O livro mistura a página
+    // PODD padrão com páginas de lista de grade bem mais densa.
+    final pgm = await _renderPgm(pdf, page, work);
+    if (pgm == null) {
+      stderr.writeln('  página $page: não foi possível medir a grade, pulando');
+      continue;
+    }
+    final grid = detectGrid(pgm);
     final size = await _pixelSize(source);
+
+    final isStandard = grid.columns.length == _standardColumns &&
+        grid.rows.length == _standardRows;
     final cells = <Cell>[];
 
     Future<void> crop(String slot, (int, int) xs, (int, int) ys) async {
-      final left = (xs.$1 / _refWidth * size.$1).round();
-      final right = (xs.$2 / _refWidth * size.$1).round();
-      final top = (ys.$1 / _refHeight * size.$2).round();
-      final bottom = (ys.$2 / _refHeight * size.$2).round();
+      final left = (xs.$1 / grid.width * size.$1).round();
+      final right = (xs.$2 / grid.width * size.$1).round();
+      final top = (ys.$1 / grid.height * size.$2).round();
+      final bottom = (ys.$2 / grid.height * size.$2).round();
+      if (right <= left || bottom <= top) return;
 
       final temp = '${work.path}/crop_${page}_$slot.png';
 
@@ -100,8 +108,6 @@ Future<void> main(List<String> args) async {
       ]);
       if (cropped.exitCode != 0) return;
 
-      // Reduz para o tamanho em que o cartão é de fato exibido; 300 dpi por
-      // célula inflaria o app sem ganho visual.
       final resized = await Process.run(
         'sips',
         ['--resampleWidth', '420', temp, '--out', temp],
@@ -117,24 +123,42 @@ Future<void> main(List<String> args) async {
       cropCount++;
     }
 
-    for (var r = 0; r < _rows.length; r++) {
-      for (var c = 0; c < _columns.length; c++) {
-        await crop('r${r}c$c', _columns[c], _rows[r]);
+    if (isStandard) {
+      // Últimas faixas são a coluna lateral e a tira de abas; a grade útil é o
+      // que vem antes delas.
+      for (var r = 0; r < grid.rows.length - 1; r++) {
+        for (var c = 0; c < grid.columns.length - 1; c++) {
+          await crop('r${r}c$c', grid.columns[c], grid.rows[r]);
+        }
+      }
+      final sidebarColumn = grid.columns.last;
+      for (var r = 0; r < grid.rows.length - 1; r++) {
+        await crop('s$r', sidebarColumn, grid.rows[r]);
+      }
+    } else {
+      for (var r = 0; r < grid.rows.length; r++) {
+        for (var c = 0; c < grid.columns.length; c++) {
+          await crop('r${r}c$c', grid.columns[c], grid.rows[r]);
+        }
       }
     }
-    for (var s = 0; s < _sidebarRows.length; s++) {
-      await crop('s$s', _sidebarColumn, _sidebarRows[s]);
-    }
+
+    layouts['$page'] = isStandard
+        ? 'padrao'
+        : '${grid.columns.length}x${grid.rows.length}';
 
     pages['$page'] = cells;
-    stdout.writeln('  página $page: ${cells.length} células');
+    stdout.writeln('  página $page: ${cells.length} células (${layouts['$page']})');
   }
 
   // Mapa geometria→hash, insumo para a transcrição manual da semântica.
   File('tool/podd_cells.json').writeAsStringSync(
     const JsonEncoder.withIndent('  ').convert({
-      for (final entry in pages.entries)
-        entry.key: {for (final c in entry.value) c.slot: c.hash},
+      'layouts': layouts,
+      'cells': {
+        for (final entry in pages.entries)
+          entry.key: {for (final c in entry.value) c.slot: c.hash},
+      },
     }),
   );
 
@@ -162,6 +186,20 @@ Future<void> main(List<String> args) async {
     ..writeln('$cropCount recortes → ${ids.length} imagens únicas '
         '(${(100 - ids.length / cropCount * 100).toStringAsFixed(0)}% desduplicado)')
     ..writeln('Mapa de células: tool/podd_cells.json');
+}
+
+/// Renderiza a página em PGM de baixa resolução, insumo da medição da grade.
+Future<File?> _renderPgm(String pdf, int page, Directory work) async {
+  final prefix = '${work.path}/geo_$page';
+  final result = await Process.run('pdftoppm', [
+    '-gray', '-r', '100', '-f', '$page', '-l', '$page', pdf, prefix,
+  ]);
+  if (result.exitCode != 0) return null;
+  for (final file in work.listSync().whereType<File>()) {
+    final name = file.uri.pathSegments.last;
+    if (name.startsWith('geo_${page}-') && name.endsWith('.pgm')) return file;
+  }
+  return null;
 }
 
 File? _findRendered(Directory dir, int page) {
