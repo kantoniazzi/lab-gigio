@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "br.com.gigio.gigio"
+    namespace = "com.antoniazi.gigio"
     // Fixado em 37 porque o flutter_secure_storage (usado para guardar o hash
     // do PIN do cuidador no Keystore) é compilado contra essa API. Manter o
     // padrão do Flutter faria o build falhar na fusão de dependências.
@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "br.com.gigio.gigio"
+        applicationId = "com.antoniazi.gigio"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
