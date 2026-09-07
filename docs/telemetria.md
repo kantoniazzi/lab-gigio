@@ -105,10 +105,42 @@ Em todos os casos, atributos cuja chave contenha `label`, `rotulo`, `frase`,
 A garantia passou de **redação no servidor** para **redação no cliente**: mais
 fraca, porque roda no dispositivo em vez de um ponto que o responsável controla.
 
-> Alternativa não implementada: `DatadogRumConfiguration` aceita
-> `customEndpoint`, o que permitiria rotear o RUM pelo Worker e recuperar a
-> redação na borda. Exigiria implementar o protocolo de intake do RUM no
-> Worker.
+### Decisão registrada: por que o RUM não passa pelo Worker
+
+`DatadogRumConfiguration` aceita `customEndpoint`, o que permitiria rotear o RUM
+pelo Worker e recuperar a redação no servidor. **Avaliado e deliberadamente não
+implementado.**
+
+O que exigiria: aceitar os caminhos do intake, descomprimir o corpo (o SDK envia
+gzip; o Workers tem `DecompressionStream`), parsear NDJSON, aplicar a lista de
+permitidos, recomprimir e repassar. Cerca de uma sessão de trabalho.
+
+O que pesou contra: o formato do intake **não é API pública documentada**. Uma
+atualização do SDK pode mudá-lo, e a telemetria pararia até alguém corrigir.
+
+O que pesou a favor de não fazer: para uso pessoal e familiar, com a conta do
+próprio responsável, a redação no aparelho já cobre o risco real.
+
+**Se o Gigio deixar de ser familiar** — outras crianças, outras famílias — esta
+decisão precisa ser revista. Aí a redação rodar dentro de um app que qualquer um
+pode modificar deixa de ser aceitável, e o roteamento pelo Worker passa de luxo a
+obrigação. Nesse caso, implementar com **lista de permitidos** e não de
+proibidos, para que mudança de formato cause perda de telemetria (visível) em vez
+de vazamento silencioso (falha aberta).
+
+### Sobre as credenciais, para não haver confusão
+
+| Credencial | Onde vive | Extraível do app? |
+|---|---|---|
+| **API Key** | Só no Worker, como secret | Não. Nunca esteve no app |
+| **Application Key** | Não é usada no projeto | — |
+| **Client token** (`pub...`) | Embutido no app | Sim, **e é por design** |
+| **Application ID** do RUM | Embutido no app | Sim, por design |
+
+O client token é **somente-escrita**: permite enviar dados falsos para a
+organização, não ler nada. Rotear pelo Worker não resolveria isso de verdade —
+apenas moveria a porta aberta para a URL do Worker. O ganho do roteamento é
+redação, não proteção de credencial.
 
 ### Identidade
 
