@@ -75,6 +75,95 @@ const Map<String, String> kSymbolMapping = {
   'por-que': 'why',
 };
 
+/// Converte classes CSS de um `<style>` em atributos de apresentação.
+///
+/// Muitos SVGs do Mulberry declaram as cores num bloco `<style>` com classes
+/// (`.st0{fill:#fff}`). O `flutter_svg` **não interpreta CSS** — ele só lê
+/// atributos de apresentação —, então esses arquivos renderizam como manchas
+/// pretas sólidas, que num app de CAA significa um símbolo ilegível.
+///
+/// Aqui achatamos o CSS para dentro dos elementos, uma vez, na curadoria. É
+/// preferível a fazer isso em tempo de execução: o custo é pago no build e o
+/// resultado fica auditável no repositório.
+String inlineCssClasses(String svg) {
+  final styleBlocks = RegExp(r'<style[^>]*>(.*?)</style>', dotAll: true)
+      .allMatches(svg)
+      .map((m) => m.group(1)!)
+      .join('\n');
+
+  if (styleBlocks.trim().isEmpty) return svg;
+
+  // Classe → propriedade → valor, respeitando a ordem das regras (a última
+  // declaração da mesma propriedade vence, como na cascata do CSS).
+  final classDecls = <String, Map<String, String>>{};
+
+  for (final rule in styleBlocks.split('}')) {
+    final parts = rule.split('{');
+    if (parts.length != 2) continue;
+
+    final selectors = parts[0]
+        .split(',')
+        .map((s) => s.trim())
+        .where((s) => s.startsWith('.'))
+        .map((s) => s.substring(1));
+
+    final decls = <String, String>{};
+    for (final decl in parts[1].split(';')) {
+      final kv = decl.split(':');
+      if (kv.length != 2) continue;
+      decls[kv[0].trim()] = kv[1].trim();
+    }
+    if (decls.isEmpty) continue;
+
+    for (final selector in selectors) {
+      (classDecls[selector] ??= <String, String>{}).addAll(decls);
+    }
+  }
+
+  var result = svg.replaceAll(
+    RegExp(r'<style[^>]*>.*?</style>', dotAll: true),
+    '',
+  );
+
+  // Reescreve cada elemento que usa `class`, trocando-a pelos atributos.
+  result = result.replaceAllMapped(
+    RegExp(r'<(\w+)([^>]*?)(/?)>'),
+    (match) {
+      final tag = match.group(1)!;
+      var attrs = match.group(2)!;
+      final selfClose = match.group(3)!;
+
+      final classMatch = RegExp(r'''\sclass\s*=\s*["']([^"']*)["']''').firstMatch(attrs);
+      if (classMatch == null) return match.group(0)!;
+
+      final merged = <String, String>{};
+      for (final name in classMatch.group(1)!.split(RegExp(r'\s+'))) {
+        final decls = classDecls[name.trim()];
+        if (decls != null) merged.addAll(decls);
+      }
+
+      attrs = attrs.replaceRange(classMatch.start, classMatch.end, '');
+
+      // O CSS tem precedência sobre atributos de apresentação, então qualquer
+      // atributo homônimo pré-existente é substituído.
+      for (final property in merged.keys) {
+        attrs = attrs.replaceAll(
+          RegExp('''\\s$property\\s*=\\s*["'][^"']*["']'''),
+          '',
+        );
+      }
+
+      final rendered =
+          merged.entries.map((e) => '${e.key}="${e.value}"').join(' ');
+
+      return '<$tag${attrs.trimRight()}'
+          '${rendered.isEmpty ? '' : ' $rendered'}$selfClose>';
+    },
+  );
+
+  return result;
+}
+
 void main(List<String> args) {
   if (args.isEmpty) {
     stderr.writeln('Uso: dart run tool/curate_symbols.dart <repo-mulberry>');
@@ -98,7 +187,8 @@ void main(List<String> args) {
       missing.add('${entry.key} → ${entry.value}.svg');
       continue;
     }
-    source.copySync('${outDir.path}/${entry.key}.svg');
+    File('${outDir.path}/${entry.key}.svg')
+        .writeAsStringSync(inlineCssClasses(source.readAsStringSync()));
     copied.add(entry.key);
   }
 

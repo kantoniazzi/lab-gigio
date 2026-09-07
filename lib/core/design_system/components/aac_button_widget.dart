@@ -92,15 +92,21 @@ class _AacButtonWidgetState extends State<AacButtonWidget> {
                           ),
                         Padding(
                           padding: const EdgeInsets.only(top: GigioSpacing.xs),
-                          child: Text(
-                            button.label,
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: fontSize,
-                              fontWeight: FontWeight.w600,
-                              color: GigioColors.textOnAccent,
+                          // `scaleDown` encolhe rótulos longos em vez de
+                          // quebrá-los no meio da palavra ("Sentiment/os").
+                          // Um rótulo partido atrapalha quem está aprendendo a
+                          // associar a palavra escrita ao símbolo.
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              button.label,
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontSize: fontSize,
+                                fontWeight: FontWeight.w600,
+                                color: GigioColors.textOnAccent,
+                              ),
                             ),
                           ),
                         ),
