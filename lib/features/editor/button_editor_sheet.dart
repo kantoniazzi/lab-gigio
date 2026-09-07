@@ -23,7 +23,11 @@ final class ButtonDeleted extends ButtonEditResult {
 }
 
 class ButtonEditorSheet extends StatefulWidget {
-  const ButtonEditorSheet({required this.button, this.isNew = false, super.key});
+  const ButtonEditorSheet({
+    required this.button,
+    this.isNew = false,
+    super.key,
+  });
 
   final AacButton button;
   final bool isNew;
@@ -33,8 +37,9 @@ class ButtonEditorSheet extends StatefulWidget {
 }
 
 class _ButtonEditorSheetState extends State<ButtonEditorSheet> {
-  late final TextEditingController _label =
-      TextEditingController(text: widget.button.label);
+  late final TextEditingController _label = TextEditingController(
+    text: widget.button.label,
+  );
   late final TextEditingController _spoken = TextEditingController(
     text: switch (widget.button.action) {
       AddWordAction(:final spokenAs) => spokenAs ?? '',
@@ -48,14 +53,14 @@ class _ButtonEditorSheetState extends State<ButtonEditorSheet> {
   late _ActionKind _kind = _kindOf(widget.button.action);
 
   static _ActionKind _kindOf(ButtonAction action) => switch (action) {
-        AddWordAction() => _ActionKind.addWord,
-        SpeakAction() => _ActionKind.speak,
-        NavigateAction() => _ActionKind.navigate,
-        NavigateBackAction() => _ActionKind.back,
-        SpeakSentenceAction() => _ActionKind.speakSentence,
-        ClearSentenceAction() => _ActionKind.clear,
-        BackspaceAction() => _ActionKind.backspace,
-      };
+    AddWordAction() => _ActionKind.addWord,
+    SpeakAction() => _ActionKind.speak,
+    NavigateAction() => _ActionKind.navigate,
+    NavigateBackAction() => _ActionKind.back,
+    SpeakSentenceAction() => _ActionKind.speakSentence,
+    ClearSentenceAction() => _ActionKind.clear,
+    BackspaceAction() => _ActionKind.backspace,
+  };
 
   @override
   void dispose() {
@@ -69,19 +74,18 @@ class _ButtonEditorSheetState extends State<ButtonEditorSheet> {
     final spoken = _spoken.text.trim();
 
     return switch (_kind) {
-      _ActionKind.addWord => label.isEmpty
-          ? null
-          : AddWordAction(
-              word: label,
-              spokenAs: spoken.isEmpty || spoken == label ? null : spoken,
-            ),
-      _ActionKind.speak =>
-        spoken.isEmpty ? null : SpeakAction(spoken),
+      _ActionKind.addWord =>
+        label.isEmpty
+            ? null
+            : AddWordAction(
+                word: label,
+                spokenAs: spoken.isEmpty || spoken == label ? null : spoken,
+              ),
+      _ActionKind.speak => spoken.isEmpty ? null : SpeakAction(spoken),
       // Trocar a ação para "navegar" exige escolher a página de destino, o que
       // não cabe neste MVP — a navegação vem do board padrão ou do JSON.
-      _ActionKind.navigate => widget.button.action is NavigateAction
-          ? widget.button.action
-          : null,
+      _ActionKind.navigate =>
+        widget.button.action is NavigateAction ? widget.button.action : null,
       _ActionKind.back => const NavigateBackAction(),
       _ActionKind.speakSentence => const SpeakSentenceAction(),
       _ActionKind.clear => const ClearSentenceAction(),
@@ -94,7 +98,9 @@ class _ButtonEditorSheetState extends State<ButtonEditorSheet> {
     if (action == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Preencha o rótulo (e o texto falado, se for "falar").'),
+          content: Text(
+            'Preencha o rótulo (e o texto falado, se for "falar").',
+          ),
         ),
       );
       return;
@@ -115,117 +121,164 @@ class _ButtonEditorSheetState extends State<ButtonEditorSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context);
+
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
+      padding: EdgeInsets.only(bottom: media.viewInsets.bottom),
       child: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(GigioSpacing.lg),
+        // Cabeçalho e ações ficam fixos; só o miolo rola. Sem isso, num
+        // telefone o botão "Salvar" fica fora da área visível e o cuidador não
+        // consegue concluir a edição.
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: media.size.height * 0.85),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                widget.isNew ? 'Novo botão' : 'Editar botão',
-                style: GigioTypography.heading,
-              ),
-              const SizedBox(height: GigioSpacing.lg),
-
-              TextField(
-                controller: _label,
-                decoration: const InputDecoration(
-                  labelText: 'Rótulo',
-                  helperText: 'O texto que aparece no botão',
+              Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  GigioSpacing.lg,
+                  GigioSpacing.lg,
+                  GigioSpacing.lg,
+                  GigioSpacing.sm,
                 ),
-              ),
-              const SizedBox(height: GigioSpacing.md),
-
-              DropdownButtonFormField<_ActionKind>(
-                initialValue: _kind,
-                decoration: const InputDecoration(labelText: 'O que este botão faz'),
-                items: _ActionKind.values
-                    .map((k) => DropdownMenuItem(value: k, child: Text(k.label)))
-                    .toList(),
-                onChanged: (v) => setState(() => _kind = v ?? _kind),
-              ),
-
-              if (_kind == _ActionKind.addWord || _kind == _ActionKind.speak) ...[
-                const SizedBox(height: GigioSpacing.md),
-                TextField(
-                  controller: _spoken,
-                  decoration: InputDecoration(
-                    labelText: _kind == _ActionKind.speak
-                        ? 'Texto falado'
-                        : 'Texto falado (opcional)',
-                    helperText: _kind == _ActionKind.speak
-                        ? 'A frase inteira que será falada'
-                        : 'Deixe vazio para falar o próprio rótulo',
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    widget.isNew ? 'Novo botão' : 'Editar botão',
+                    style: GigioTypography.heading,
                   ),
                 ),
-              ],
-
-              const SizedBox(height: GigioSpacing.lg),
-              const Text('Cor (classe gramatical)', style: GigioTypography.caption),
-              const SizedBox(height: GigioSpacing.sm),
-              Wrap(
-                spacing: GigioSpacing.sm,
-                runSpacing: GigioSpacing.sm,
-                children: WordClass.values
-                    .map(
-                      (wc) => GestureDetector(
-                        onTap: () => setState(() => _wordClass = wc),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: GigioSpacing.md,
-                            vertical: GigioSpacing.sm,
-                          ),
-                          decoration: BoxDecoration(
-                            color: GigioColors.forWordClass(wc),
-                            borderRadius: BorderRadius.circular(GigioRadius.button),
-                            border: Border.all(
-                              color: _wordClass == wc
-                                  ? GigioColors.editModeAccent
-                                  : GigioColors.border,
-                              width: _wordClass == wc ? 2.5 : 1,
-                            ),
-                          ),
-                          child: Text(wc.label, style: GigioTypography.caption),
+              ),
+              Flexible(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: GigioSpacing.lg,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        controller: _label,
+                        decoration: const InputDecoration(
+                          labelText: 'Rótulo',
+                          helperText: 'O texto que aparece no botão',
                         ),
                       ),
-                    )
-                    .toList(),
-              ),
+                      const SizedBox(height: GigioSpacing.md),
 
-              const SizedBox(height: GigioSpacing.lg),
-              const Text('Símbolo', style: GigioTypography.caption),
-              const SizedBox(height: GigioSpacing.sm),
-              _SymbolPicker(
-                selected: _symbolId,
-                onSelected: (id) => setState(() => _symbolId = id),
-              ),
-
-              const SizedBox(height: GigioSpacing.xl),
-              Row(
-                children: [
-                  if (!widget.isNew)
-                    TextButton.icon(
-                      onPressed: () =>
-                          Navigator.of(context).pop(const ButtonDeleted()),
-                      icon: const Icon(Icons.delete_outline),
-                      label: const Text('Remover'),
-                      style: TextButton.styleFrom(
-                        foregroundColor: GigioColors.danger,
+                      DropdownButtonFormField<_ActionKind>(
+                        initialValue: _kind,
+                        decoration: const InputDecoration(
+                          labelText: 'O que este botão faz',
+                        ),
+                        items: _ActionKind.values
+                            .map(
+                              (k) => DropdownMenuItem(
+                                value: k,
+                                child: Text(k.label),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (v) => setState(() => _kind = v ?? _kind),
                       ),
-                    ),
-                  const Spacer(),
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('Cancelar'),
+
+                      if (_kind == _ActionKind.addWord ||
+                          _kind == _ActionKind.speak) ...[
+                        const SizedBox(height: GigioSpacing.md),
+                        TextField(
+                          controller: _spoken,
+                          decoration: InputDecoration(
+                            labelText: _kind == _ActionKind.speak
+                                ? 'Texto falado'
+                                : 'Texto falado (opcional)',
+                            helperText: _kind == _ActionKind.speak
+                                ? 'A frase inteira que será falada'
+                                : 'Deixe vazio para falar o próprio rótulo',
+                          ),
+                        ),
+                      ],
+
+                      const SizedBox(height: GigioSpacing.lg),
+                      const Text(
+                        'Cor (classe gramatical)',
+                        style: GigioTypography.caption,
+                      ),
+                      const SizedBox(height: GigioSpacing.sm),
+                      Wrap(
+                        spacing: GigioSpacing.sm,
+                        runSpacing: GigioSpacing.sm,
+                        children: WordClass.values
+                            .map(
+                              (wc) => GestureDetector(
+                                onTap: () => setState(() => _wordClass = wc),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: GigioSpacing.md,
+                                    vertical: GigioSpacing.sm,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: GigioColors.forWordClass(wc),
+                                    borderRadius: BorderRadius.circular(
+                                      GigioRadius.button,
+                                    ),
+                                    border: Border.all(
+                                      color: _wordClass == wc
+                                          ? GigioColors.editModeAccent
+                                          : GigioColors.border,
+                                      width: _wordClass == wc ? 2.5 : 1,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    wc.label,
+                                    style: GigioTypography.caption,
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+
+                      const SizedBox(height: GigioSpacing.lg),
+                      const Text('Símbolo', style: GigioTypography.caption),
+                      const SizedBox(height: GigioSpacing.sm),
+                      _SymbolPicker(
+                        selected: _symbolId,
+                        onSelected: (id) => setState(() => _symbolId = id),
+                      ),
+                      const SizedBox(height: GigioSpacing.lg),
+                    ],
                   ),
-                  const SizedBox(width: GigioSpacing.sm),
-                  FilledButton(onPressed: _save, child: const Text('Salvar')),
-                ],
+                ),
+              ),
+              // Barra de ações fixa — sempre alcançável, independentemente do
+              // tamanho da tela ou do teclado aberto.
+              Container(
+                decoration: const BoxDecoration(
+                  border: Border(top: BorderSide(color: GigioColors.border)),
+                ),
+                padding: const EdgeInsets.all(GigioSpacing.md),
+                child: Row(
+                  children: [
+                    if (!widget.isNew)
+                      TextButton.icon(
+                        onPressed: () =>
+                            Navigator.of(context).pop(const ButtonDeleted()),
+                        icon: const Icon(Icons.delete_outline),
+                        label: const Text('Remover'),
+                        style: TextButton.styleFrom(
+                          foregroundColor: GigioColors.danger,
+                        ),
+                      ),
+                    const Spacer(),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text('Cancelar'),
+                    ),
+                    const SizedBox(width: GigioSpacing.sm),
+                    FilledButton(onPressed: _save, child: const Text('Salvar')),
+                  ],
+                ),
               ),
             ],
           ),
@@ -279,7 +332,10 @@ class _SymbolPickerState extends State<_SymbolPicker> {
                 return _PickerCell(
                   selected: widget.selected == null,
                   onTap: () => widget.onSelected(null),
-                  child: const Icon(Icons.block, color: GigioColors.textSecondary),
+                  child: const Icon(
+                    Icons.block,
+                    color: GigioColors.textSecondary,
+                  ),
                 );
               }
 
@@ -343,15 +399,15 @@ enum _ActionKind {
 
 extension on WordClass {
   String get label => switch (this) {
-        WordClass.pronoun => 'pessoa',
-        WordClass.verb => 'verbo',
-        WordClass.adjective => 'descrição',
-        WordClass.noun => 'coisa',
-        WordClass.social => 'social',
-        WordClass.preposition => 'lugar',
-        WordClass.question => 'pergunta',
-        WordClass.negation => 'negação',
-        WordClass.category => 'categoria',
-        WordClass.system => 'controle',
-      };
+    WordClass.pronoun => 'pessoa',
+    WordClass.verb => 'verbo',
+    WordClass.adjective => 'descrição',
+    WordClass.noun => 'coisa',
+    WordClass.social => 'social',
+    WordClass.preposition => 'lugar',
+    WordClass.question => 'pergunta',
+    WordClass.negation => 'negação',
+    WordClass.category => 'categoria',
+    WordClass.system => 'controle',
+  };
 }
