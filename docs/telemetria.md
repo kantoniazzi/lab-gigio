@@ -79,3 +79,63 @@ feita**. Esquecer de configurar resulta em privacidade, não em vazamento.
 
 Conta pessoal do Datadog, uso familiar, estudo pessoal, sem publicação
 comercial. O consentimento parental aqui é do próprio responsável legal.
+
+---
+
+## RUM do Datadog
+
+A partir da instrumentação com `datadog_flutter_plugin`, o app envia **views,
+actions e erros** direto ao Datadog RUM.
+
+### Consequência que precisa estar registrada
+
+O SDK do Datadog **não passa pelo Worker do Cloudflare**. A redação na borda
+deixou de proteger esses dados. O substituto são os *event mappers*, que rodam
+**no aparelho** antes do envio:
+
+| Evento | Pode ser descartado? | Barreira |
+|---|---|---|
+| `view` | **Não** — o mapper retorna tipo não-anulável | Barrado na origem: `startView` só é chamado com consentimento, e nenhum observador automático de navegação está ligado |
+| `action` | Sim | Descartado pelo `actionEventMapper` sem consentimento |
+| `error` | Sim | Sempre passa (é técnico), com atributos limpos |
+
+Em todos os casos, atributos cuja chave contenha `label`, `rotulo`, `frase`,
+`texto`, `simbolo` e afins são removidos antes do envio.
+
+A garantia passou de **redação no servidor** para **redação no cliente**: mais
+fraca, porque roda no dispositivo em vez de um ponto que o responsável controla.
+
+> Alternativa não implementada: `DatadogRumConfiguration` aceita
+> `customEndpoint`, o que permitiria rotear o RUM pelo Worker e recuperar a
+> redação na borda. Exigiria implementar o protocolo de intake do RUM no
+> Worker.
+
+### Identidade
+
+**Não há login.** A distribuição é por TestFlight sem contas, então "usuário
+logado" não existe. O que vai para `setUserInfo`:
+
+- `id`: id de instalação aleatório, gerado no aparelho, sem relação com pessoa
+- `name`: apelido que o cuidador digitar, ou `instalação abc123`
+- `extraInfo`: contexto do aparelho
+
+Inventar uma identidade estável ligada à comunicação de uma criança seria o
+desenho mais sensível possível. Quando houver login, troca-se a origem do id.
+
+### Nome do dispositivo
+
+**Limitação do iOS:** desde o iOS 16, a Apple não devolve o nome atribuído pelo
+usuário ("iPad da Gigi") sem *entitlement* especial — retorna o modelo. No
+Android o nome real costuma vir.
+
+### Compilar com RUM
+
+```bash
+flutter build ios --release \
+  --dart-define=GIGIO_DD_CLIENT_TOKEN=pub... \
+  --dart-define=GIGIO_DD_APP_ID=... \
+  --dart-define=GIGIO_DD_ENV=familia
+```
+
+Sem as duas primeiras, o app cai para o Worker; sem nenhuma, para a
+implementação vazia, e **nenhuma rede é feita**.
