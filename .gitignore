@@ -55,3 +55,8 @@ _bmad/
 
 # Builds
 /build/
+
+# Chave de assinatura — NUNCA versionar
+key.properties
+*.jks
+*.keystore

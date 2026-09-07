@@ -53,6 +53,12 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<!-- O Gigio usa criptografia apenas para verificar o PIN do cuidador
+	     (PBKDF2-HMAC-SHA256, localmente). Isso se enquadra na isenção de
+	     autenticação, então não há uso de criptografia não isenta. Declarar
+	     aqui evita que cada envio ao TestFlight pare para perguntar isso. -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

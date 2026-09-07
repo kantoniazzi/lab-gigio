@@ -1,3 +1,14 @@
+import java.util.Properties
+
+// Chave de assinatura de release, lida de FORA do repositório
+// (~/.gigio-keys/key.properties). Fica fora de propósito: perder essa chave
+// significa nunca mais conseguir publicar atualização do app na Play Store,
+// e commitá-la significa entregar a identidade do app a quem clonar o repo.
+val keyProperties = Properties().apply {
+    val file = File(System.getProperty("user.home"), ".gigio-keys/key.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
@@ -34,11 +45,27 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        create("release") {
+            if (keyProperties.getProperty("storeFile") != null) {
+                storeFile = file(keyProperties.getProperty("storeFile"))
+                storePassword = keyProperties.getProperty("storePassword")
+                keyAlias = keyProperties.getProperty("keyAlias")
+                keyPassword = keyProperties.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // Usa a chave de upload quando ela existe; cai para a de debug
+            // apenas em máquinas sem a chave, para não travar `flutter run`.
+            signingConfig = if (keyProperties.getProperty("storeFile") != null) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
 }
