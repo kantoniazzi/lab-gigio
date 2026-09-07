@@ -26,6 +26,12 @@ class SymbolView extends StatelessWidget {
           semanticsLabel: fallbackLabel,
           placeholderBuilder: (_) => const SizedBox.shrink(),
         ),
+      PoddCellSymbol(:final assetPath) => Image.asset(
+          assetPath,
+          fit: BoxFit.contain,
+          semanticLabel: fallbackLabel,
+          filterQuality: FilterQuality.medium,
+        ),
       IconSymbol(:final icon) => LayoutBuilder(
           builder: (context, constraints) => Icon(
             icon,

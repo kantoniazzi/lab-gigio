@@ -19,6 +19,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:gigio/core/symbols/podd_manifest.g.dart';
 import 'package:gigio/core/symbols/symbol_manifest.g.dart';
 
 /// De onde vem o desenho de um símbolo.
@@ -36,8 +37,16 @@ final class IconSymbol extends SymbolSource {
   final IconData icon;
 }
 
+/// Célula recortada do livro PODD da Gigi. A imagem já traz rótulo, cor e selo
+/// de destino desenhados, então é renderizada sangrada, sem texto por cima.
+final class PoddCellSymbol extends SymbolSource {
+  const PoddCellSymbol(this.assetPath);
+  final String assetPath;
+}
+
 abstract final class SymbolCatalog {
   static const String _assetDir = 'assets/symbols';
+  static const String _poddDir = 'assets/podd';
 
   /// Glifos nativos para palavras de função que o Mulberry não cobre.
   static const Map<String, IconData> _builtinIcons = {
@@ -81,6 +90,9 @@ abstract final class SymbolCatalog {
   static SymbolSource? resolve(String symbolId) {
     if (!isValidId(symbolId)) return null;
 
+    if (kPoddCellIds.contains(symbolId)) {
+      return PoddCellSymbol('$_poddDir/$symbolId.png');
+    }
     if (kBundledSymbolIds.contains(symbolId)) {
       return SvgSymbol('$_assetDir/$symbolId.svg');
     }
@@ -88,7 +100,11 @@ abstract final class SymbolCatalog {
     return icon == null ? null : IconSymbol(icon);
   }
 
-  /// Todos os ids disponíveis, ordenados — usado pelo seletor do editor.
+  /// Ids oferecidos no seletor do editor, ordenados.
+  ///
+  /// As células do livro PODD ficam **de fora** de propósito: seus ids são
+  /// hashes de conteúdo, ilegíveis para o cuidador, e esse board vem do livro
+  /// impresso, não de uma busca por nome.
   static List<String> get sortedIds =>
       {...kBundledSymbolIds, ..._builtinIcons.keys}.toList()..sort();
 

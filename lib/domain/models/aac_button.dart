@@ -16,6 +16,7 @@ class AacButton {
     this.wordClass = WordClass.noun,
     this.symbolId,
     this.hidden = false,
+    this.labelInImage = false,
   });
 
   final String id;
@@ -37,6 +38,12 @@ class AacButton {
   /// não renderiza símbolo.
   final String? symbolId;
 
+  /// Quando o próprio símbolo já traz o rótulo desenhado — caso dos cartões
+  /// recortados do livro PODD, que incluem texto, cor e selo de destino —, a UI
+  /// desenha a imagem sangrada e não escreve o rótulo por cima. O campo [label]
+  /// continua valendo para a barra de frase e para a fala.
+  final bool labelInImage;
+
   /// Botão oculto mantém a posição na grade sem ser exibido. Permite ao
   /// cuidador simplificar o board sem reorganizar tudo — prática comum em CAA,
   /// já que mover símbolos de lugar prejudica a memória motora da criança.
@@ -51,6 +58,7 @@ class AacButton {
     String? symbolId,
     bool clearSymbol = false,
     bool? hidden,
+    bool? labelInImage,
   }) =>
       AacButton(
         id: id,
@@ -61,6 +69,7 @@ class AacButton {
         wordClass: wordClass ?? this.wordClass,
         symbolId: clearSymbol ? null : (symbolId ?? this.symbolId),
         hidden: hidden ?? this.hidden,
+        labelInImage: labelInImage ?? this.labelInImage,
       );
 
   Map<String, Object?> toJson() => {
@@ -70,6 +79,7 @@ class AacButton {
         'wordClass': wordClass.toJson(),
         if (symbolId != null) 'symbol': symbolId,
         if (hidden) 'hidden': true,
+        if (labelInImage) 'labelInImage': true,
         'action': action.toJson(),
       };
 
@@ -135,6 +145,7 @@ class AacButton {
         wordClass: WordClass.fromJson(json['wordClass'] as String?),
         symbolId: symbol as String?,
         hidden: json['hidden'] == true,
+        labelInImage: json['labelInImage'] == true,
       ),
     );
   }

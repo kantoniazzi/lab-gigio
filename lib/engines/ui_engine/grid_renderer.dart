@@ -35,8 +35,12 @@ class GridRenderer extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           const gap = GigioSpacing.sm;
-          final cellWidth =
-              (constraints.maxWidth - gap * (page.columns - 1)) / page.columns;
+          // Com coluna lateral, a grade principal divide o que sobra: as
+          // colunas normais mais uma faixa lateral de 0.62 de célula.
+          final sidebarUnits = page.sidebar.isEmpty ? 0.0 : 0.62;
+          final horizontalGaps = gap * (page.columns - 1 + (sidebarUnits > 0 ? 1 : 0));
+          final cellWidth = (constraints.maxWidth - horizontalGaps) /
+              (page.columns + sidebarUnits);
           final cellHeight =
               (constraints.maxHeight - gap * (page.rows - 1)) / page.rows;
 
@@ -57,7 +61,7 @@ class GridRenderer extends StatelessWidget {
             return true;
           }());
 
-          return Column(
+          final grid = Column(
             children: [
               for (var row = 0; row < page.rows; row++) ...[
                 if (row > 0) const SizedBox(height: gap),
@@ -78,9 +82,49 @@ class GridRenderer extends StatelessWidget {
               ],
             ],
           );
+
+          if (page.sidebar.isEmpty) return grid;
+
+          // A coluna lateral fica fora da grade de propósito: no PODD a posição
+          // desses comandos é constante em todo o livro, e é isso que os torna
+          // confiáveis para quem navega por memória.
+          return Row(
+            children: [
+              Expanded(child: grid),
+              const SizedBox(width: gap),
+              SizedBox(
+                width: cellWidth * 0.62,
+                child: Column(
+                  children: [
+                    for (var row = 0; row < page.rows; row++) ...[
+                      if (row > 0) const SizedBox(height: gap),
+                      SizedBox(
+                        height: cellHeight,
+                        child: _sidebarSlot(row),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ],
+          );
         },
       ),
     );
+  }
+
+  Widget _sidebarSlot(int row) {
+    for (final button in page.sidebar) {
+      if (button.row != row) continue;
+      if (button.hidden && !isEditing) return const SizedBox.shrink();
+      return AacButtonWidget(
+        button: button,
+        isEditing: isEditing,
+        onPressed: () => onButtonPressed(button),
+        onEditPressed: () => onButtonEdit?.call(button),
+      );
+    }
+    return const SizedBox.shrink();
   }
 
   Widget _buildCell(int row, int column) {

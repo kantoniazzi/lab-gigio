@@ -22,6 +22,15 @@ void main() {
   // sistema aparecendo no meio de uma frase é distração desnecessária.
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
+  // O livro PODD é paisagem (819x575 pt) e a grade 4x3 nasceu para essa
+  // proporção. Em retrato os cartões ficam pequenos, com vãos verticais
+  // enormes — e cartão pequeno é alvo de toque pior para quem tem dificuldade
+  // motora fina. Travar em paisagem é fidelidade ao livro e acessibilidade.
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]);
+
   runApp(
     ProviderScope(
       overrides: [

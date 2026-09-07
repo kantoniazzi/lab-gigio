@@ -12,7 +12,7 @@ import 'package:gigio/domain/models/button_action.dart';
 
 /// Versão do formato de arquivo. Incrementar ao fazer mudança incompatível,
 /// para que uma versão futura do app saiba migrar (ou recusar) o board.
-const int kBoardSchemaVersion = 1;
+const int kBoardSchemaVersion = 2;
 
 class BoardPage {
   const BoardPage({
@@ -21,6 +21,7 @@ class BoardPage {
     required this.rows,
     required this.columns,
     required this.buttons,
+    this.sidebar = const [],
   });
 
   final String id;
@@ -28,6 +29,16 @@ class BoardPage {
   final int rows;
   final int columns;
   final List<AacButton> buttons;
+
+  /// Coluna fixa à direita da grade.
+  ///
+  /// No PODD ela carrega os comandos que precisam estar sempre no mesmo lugar —
+  /// "voltar para página 1", "ooops" (reparo de comunicação) e o retorno à
+  /// página-mãe da seção. Ficam fora da grade de propósito: a posição desses
+  /// três é constante em todo o livro, e é isso que os torna confiáveis.
+  ///
+  /// A `row` de cada botão indica a posição na coluna; a `column` é ignorada.
+  final List<AacButton> sidebar;
 
   int get capacity => rows * columns;
 
@@ -43,6 +54,7 @@ class BoardPage {
     int? rows,
     int? columns,
     List<AacButton>? buttons,
+    List<AacButton>? sidebar,
   }) =>
       BoardPage(
         id: id,
@@ -50,6 +62,7 @@ class BoardPage {
         rows: rows ?? this.rows,
         columns: columns ?? this.columns,
         buttons: buttons ?? this.buttons,
+        sidebar: sidebar ?? this.sidebar,
       );
 
   Map<String, Object?> toJson() => {
@@ -58,6 +71,8 @@ class BoardPage {
         'rows': rows,
         'columns': columns,
         'buttons': buttons.map((b) => b.toJson()).toList(),
+        if (sidebar.isNotEmpty)
+          'sidebar': sidebar.map((b) => b.toJson()).toList(),
       };
 
   static Result<BoardPage> fromJson(Map<String, Object?> json) {
@@ -137,12 +152,47 @@ class BoardPage {
       }
     }
 
+    final sidebar = <AacButton>[];
+    final rawSidebar = json['sidebar'];
+    if (rawSidebar != null) {
+      if (rawSidebar is! List) {
+        return Err(BoardValidationError(
+          'O campo "sidebar" da página "$id" precisa ser uma lista.',
+          field: 'pages.$id',
+        ));
+      }
+      for (var i = 0; i < rawSidebar.length; i++) {
+        final raw = rawSidebar[i];
+        if (raw is! Map<String, Object?>) {
+          return Err(BoardValidationError(
+            'O item $i de "sidebar" da página "$id" não é um objeto.',
+            field: 'pages.$id.sidebar[$i]',
+          ));
+        }
+        // A coluna lateral é uma faixa vertical de uma coluna só; validamos a
+        // linha contra o número de linhas da página e fixamos a coluna em 0.
+        final parsed = AacButton.fromJson(
+          {...raw, 'position': [(raw['position']! as List)[0], 0]},
+          rows: rows,
+          columns: 1,
+          field: 'pages.$id.sidebar[$i]',
+        );
+        switch (parsed) {
+          case Err(:final error):
+            return Err(error);
+          case Ok(:final value):
+            sidebar.add(value);
+        }
+      }
+    }
+
     return Ok(BoardPage(
       id: id,
       name: name,
       rows: rows,
       columns: columns,
       buttons: buttons,
+      sidebar: sidebar,
     ));
   }
 }
@@ -244,7 +294,7 @@ class Board {
     // recusar o board na importação do que descobrir isso no meio de uma
     // tentativa de comunicação.
     for (final page in pages.values) {
-      for (final button in page.buttons) {
+      for (final button in [...page.buttons, ...page.sidebar]) {
         final action = button.action;
         if (action is NavigateAction && !pages.containsKey(action.targetPageId)) {
           return Err(BoardValidationError(

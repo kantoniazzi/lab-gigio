@@ -16,7 +16,7 @@ class JsonBoardStore implements BoardRepository {
 
   static const _fileName = 'board_ativo.json';
   static const _backupFileName = 'board_ativo.bak.json';
-  static const _defaultBoardAsset = 'assets/boards/board_padrao.json';
+  static const _defaultBoardAsset = 'assets/boards/board_podd_gigi.json';
 
   final Directory? _overrideDirectory;
 

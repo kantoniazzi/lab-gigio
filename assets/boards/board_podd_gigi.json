@@ -1,0 +1,2496 @@
+{
+  "schemaVersion": 2,
+  "id": "podd-gigi",
+  "name": "Livro da Gigi (PODD)",
+  "homePageId": "1a",
+  "pages": [
+    {
+      "id": "1a",
+      "name": "Página 1",
+      "rows": 3,
+      "columns": 4,
+      "buttons": [
+        {
+          "id": "1a-r0c0",
+          "label": "eu",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "8f9dab5722bbe94c",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "eu"
+          }
+        },
+        {
+          "id": "1a-r0c1",
+          "label": "parar",
+          "position": [
+            0,
+            1
+          ],
+          "symbol": "1c4f549e41b438d2",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "parar"
+          }
+        },
+        {
+          "id": "1a-r0c2",
+          "label": "mais",
+          "position": [
+            0,
+            2
+          ],
+          "symbol": "5ed9b4e297d01c19",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "mais"
+          }
+        },
+        {
+          "id": "1a-r0c3",
+          "label": "Mais a Dizer",
+          "position": [
+            0,
+            3
+          ],
+          "symbol": "4cd2afd3353f862f",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "2a"
+          }
+        },
+        {
+          "id": "1a-r1c0",
+          "label": "você",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "71759738f7343645",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "você"
+          }
+        },
+        {
+          "id": "1a-r1c1",
+          "label": "ajudar",
+          "position": [
+            1,
+            1
+          ],
+          "symbol": "7006aaa217c08bee",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "ajudar"
+          }
+        },
+        {
+          "id": "1a-r1c2",
+          "label": "acabar",
+          "position": [
+            1,
+            2
+          ],
+          "symbol": "59809b2c9a4e854c",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "acabou"
+          }
+        },
+        {
+          "id": "1a-r1c3",
+          "label": "eu não sei",
+          "position": [
+            1,
+            3
+          ],
+          "symbol": "c11683119d249c7f",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Eu não sei."
+          }
+        },
+        {
+          "id": "1a-r2c0",
+          "label": "Uh oh!",
+          "position": [
+            2,
+            0
+          ],
+          "symbol": "94835d21765cb21a",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Uh oh! Oh não!"
+          }
+        },
+        {
+          "id": "1a-r2c1",
+          "label": "vem",
+          "position": [
+            2,
+            1
+          ],
+          "symbol": "a8f1d0b3191073e8",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "vem"
+          }
+        },
+        {
+          "id": "1a-r2c2",
+          "label": "olhar",
+          "position": [
+            2,
+            2
+          ],
+          "symbol": "58c417c3e5d79ab9",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "olhar"
+          }
+        },
+        {
+          "id": "1a-r2c3",
+          "label": "Outra Coisa",
+          "position": [
+            2,
+            3
+          ],
+          "symbol": "ce5fc912a555c5c7",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "2a"
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "1a-s1",
+          "label": "ooops",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "f78988941e41aad8",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Ooops! Eu me enganei."
+          }
+        }
+      ]
+    },
+    {
+      "id": "2a",
+      "name": "Página 2",
+      "rows": 3,
+      "columns": 4,
+      "buttons": [
+        {
+          "id": "2a-r0c0",
+          "label": "é hora de",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "93de578741237a63",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "é hora de"
+          }
+        },
+        {
+          "id": "2a-r0c1",
+          "label": "eu tenho uma pergunta",
+          "position": [
+            0,
+            1
+          ],
+          "symbol": "a8e142d1f5425520",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "8"
+          }
+        },
+        {
+          "id": "2a-r0c2",
+          "label": "eu quero fazer",
+          "position": [
+            0,
+            2
+          ],
+          "symbol": "21745543cbde1a88",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "11a"
+          }
+        },
+        {
+          "id": "2a-r0c3",
+          "label": "eu gosto",
+          "position": [
+            0,
+            3
+          ],
+          "symbol": "866e3a759a119cda",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "3"
+          }
+        },
+        {
+          "id": "2a-r1c0",
+          "label": "eu quero te contar",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "9f8d49c357f04fa8",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Eu quero te contar uma coisa."
+          }
+        },
+        {
+          "id": "2a-r1c1",
+          "label": "arrumar",
+          "position": [
+            1,
+            1
+          ],
+          "symbol": "46114613ee152db9",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "arrumar"
+          }
+        },
+        {
+          "id": "2a-r1c2",
+          "label": "vamos ir",
+          "position": [
+            1,
+            2
+          ],
+          "symbol": "c53665a49426f1e6",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "12"
+          }
+        },
+        {
+          "id": "2a-r1c3",
+          "label": "eu não gosto disso",
+          "position": [
+            1,
+            3
+          ],
+          "symbol": "7652f1b9287547d9",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "4"
+          }
+        },
+        {
+          "id": "2a-r2c0",
+          "label": "banheiro",
+          "position": [
+            2,
+            0
+          ],
+          "symbol": "609bc32c48b1b3b4",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Eu tenho que ir ao banheiro."
+          }
+        },
+        {
+          "id": "2a-r2c1",
+          "label": "eu quero te mostrar algo",
+          "position": [
+            2,
+            1
+          ],
+          "symbol": "7e00f9e5495619bc",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "2b"
+          }
+        },
+        {
+          "id": "2a-r2c2",
+          "label": "fazer",
+          "position": [
+            2,
+            2
+          ],
+          "symbol": "f0229945946fd343",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "10a"
+          }
+        },
+        {
+          "id": "2a-r2c3",
+          "label": "algo está errado",
+          "position": [
+            2,
+            3
+          ],
+          "symbol": "45476a8142f7fe75",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "5"
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "2a-s0",
+          "label": "voltar para a página 1",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "74afded671da6e14",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "1a"
+          }
+        },
+        {
+          "id": "2a-s1",
+          "label": "ooops",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "f78988941e41aad8",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Ooops! Eu me enganei."
+          }
+        }
+      ]
+    },
+    {
+      "id": "2b",
+      "name": "Mostrar",
+      "rows": 3,
+      "columns": 4,
+      "buttons": [
+        {
+          "id": "2b-r0c0",
+          "label": "eu",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "30f4822abb26743e",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "eu"
+          }
+        },
+        {
+          "id": "2b-r0c1",
+          "label": "olhe pra mim",
+          "position": [
+            0,
+            1
+          ],
+          "symbol": "22365503ed8496ad",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Olhe pra mim!"
+          }
+        },
+        {
+          "id": "2b-r0c2",
+          "label": "isso",
+          "position": [
+            0,
+            2
+          ],
+          "symbol": "d0a5e3102343ad36",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "isso"
+          }
+        },
+        {
+          "id": "2b-r0c3",
+          "label": "quarto",
+          "position": [
+            0,
+            3
+          ],
+          "symbol": "7225b44c547b23f3",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "quarto"
+          }
+        },
+        {
+          "id": "2b-r1c0",
+          "label": "pegue meu comunicador",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "c58fbd27902751fb",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Por favor, pegue meu comunicador."
+          }
+        },
+        {
+          "id": "2b-r1c1",
+          "label": "fazer algo",
+          "position": [
+            1,
+            1
+          ],
+          "symbol": "a23b8ad1ce9e3a5a",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "fazer algo"
+          }
+        },
+        {
+          "id": "2b-r1c2",
+          "label": "dentro",
+          "position": [
+            1,
+            2
+          ],
+          "symbol": "ab55843ccbb0183b",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "dentro"
+          }
+        },
+        {
+          "id": "2b-r1c3",
+          "label": "mochila",
+          "position": [
+            1,
+            3
+          ],
+          "symbol": "792e6905e20c6332",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "mochila"
+          }
+        },
+        {
+          "id": "2b-r2c0",
+          "label": "perguntar a alguém",
+          "position": [
+            2,
+            0
+          ],
+          "symbol": "86ec9350886a9bdf",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "9"
+          }
+        },
+        {
+          "id": "2b-r2c1",
+          "label": "pegar",
+          "position": [
+            2,
+            1
+          ],
+          "symbol": "caebc1a1c92a22a2",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "pegar"
+          }
+        },
+        {
+          "id": "2b-r2c2",
+          "label": "novo",
+          "position": [
+            2,
+            2
+          ],
+          "symbol": "0bcffd2729ce138b",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "novo"
+          }
+        },
+        {
+          "id": "2b-r2c3",
+          "label": "algum outro lugar",
+          "position": [
+            2,
+            3
+          ],
+          "symbol": "9b58155fc10ea322",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "12"
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "2b-s0",
+          "label": "voltar para a página 1",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "da471fd2faa1a9fa",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "1a"
+          }
+        },
+        {
+          "id": "2b-s1",
+          "label": "ooops",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "f78988941e41aad8",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Ooops! Eu me enganei."
+          }
+        },
+        {
+          "id": "2b-s2",
+          "label": "voltar para a página 2",
+          "position": [
+            2,
+            0
+          ],
+          "symbol": "30cd5de3ac2c804d",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "2a"
+          }
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Eu gosto",
+      "rows": 3,
+      "columns": 4,
+      "buttons": [
+        {
+          "id": "3-r0c0",
+          "label": "bom",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "8ea50a99a46862a7",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "bom"
+          }
+        },
+        {
+          "id": "3-r0c1",
+          "label": "engraçado",
+          "position": [
+            0,
+            1
+          ],
+          "symbol": "8ea295ff8bf5aa99",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "engraçado"
+          }
+        },
+        {
+          "id": "3-r0c2",
+          "label": "delícia",
+          "position": [
+            0,
+            2
+          ],
+          "symbol": "b6974bc721e00549",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "delicioso"
+          }
+        },
+        {
+          "id": "3-r0c3",
+          "label": "especial",
+          "position": [
+            0,
+            3
+          ],
+          "symbol": "aee642513d57fdd6",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "especial"
+          }
+        },
+        {
+          "id": "3-r1c0",
+          "label": "ótimo",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "14ce0a4e1e19e45e",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "ótimo"
+          }
+        },
+        {
+          "id": "3-r1c1",
+          "label": "divertido",
+          "position": [
+            1,
+            1
+          ],
+          "symbol": "aeb284ef2a5e79c3",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "divertido"
+          }
+        },
+        {
+          "id": "3-r1c2",
+          "label": "favorito",
+          "position": [
+            1,
+            2
+          ],
+          "symbol": "6235dc2cfdcb6504",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "favorito"
+          }
+        },
+        {
+          "id": "3-r1c3",
+          "label": "tentar",
+          "position": [
+            1,
+            3
+          ],
+          "symbol": "c4590d8acfb9fbda",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "tentar"
+          }
+        },
+        {
+          "id": "3-r2c0",
+          "label": "legal",
+          "position": [
+            2,
+            0
+          ],
+          "symbol": "711139dd4af4d834",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "legal"
+          }
+        },
+        {
+          "id": "3-r2c1",
+          "label": "inteligente",
+          "position": [
+            2,
+            1
+          ],
+          "symbol": "ea9b082008634990",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "inteligente"
+          }
+        },
+        {
+          "id": "3-r2c2",
+          "label": "lindo",
+          "position": [
+            2,
+            2
+          ],
+          "symbol": "2a4b8e6b605504c7",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "lindo"
+          }
+        },
+        {
+          "id": "3-r2c3",
+          "label": "ir para lista",
+          "position": [
+            2,
+            3
+          ],
+          "symbol": "fc75cb5b2f732afc",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "lista"
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "3-s0",
+          "label": "voltar para a página 1",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "40a528a3d21f4dc5",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "1a"
+          }
+        },
+        {
+          "id": "3-s1",
+          "label": "ooops",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "f78988941e41aad8",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Ooops! Eu me enganei."
+          }
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Eu não gosto",
+      "rows": 3,
+      "columns": 4,
+      "buttons": [
+        {
+          "id": "4-r0c0",
+          "label": "ruim",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "23f10b777f81ee4f",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "ruim"
+          }
+        },
+        {
+          "id": "4-r0c1",
+          "label": "eu não quero fazer isso",
+          "position": [
+            0,
+            1
+          ],
+          "symbol": "644f37736ec11d92",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Eu não quero fazer isso."
+          }
+        },
+        {
+          "id": "4-r0c2",
+          "label": "assustador",
+          "position": [
+            0,
+            2
+          ],
+          "symbol": "85cdab879f297407",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "assustador"
+          }
+        },
+        {
+          "id": "4-r0c3",
+          "label": "eca",
+          "position": [
+            0,
+            3
+          ],
+          "symbol": "3ecfa6c059d19bea",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "eca"
+          }
+        },
+        {
+          "id": "4-r1c0",
+          "label": "safado",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "ede3beabc0a16ea1",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "safado"
+          }
+        },
+        {
+          "id": "4-r1c1",
+          "label": "eu não consigo",
+          "position": [
+            1,
+            1
+          ],
+          "symbol": "8e98f65472c92557",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Eu não consigo fazer isso."
+          }
+        },
+        {
+          "id": "4-r1c2",
+          "label": "entediante",
+          "position": [
+            1,
+            2
+          ],
+          "symbol": "2fbadcc4a44ee8b4",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "entediante"
+          }
+        },
+        {
+          "id": "4-r1c3",
+          "label": "vamos fazer outra coisa",
+          "position": [
+            1,
+            3
+          ],
+          "symbol": "5a5e56272f49507a",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "11a"
+          }
+        },
+        {
+          "id": "4-r2c0",
+          "label": "bobo",
+          "position": [
+            2,
+            0
+          ],
+          "symbol": "2273c41c6fe4e38d",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "bobo"
+          }
+        },
+        {
+          "id": "4-r2c1",
+          "label": "barulhento",
+          "position": [
+            2,
+            1
+          ],
+          "symbol": "a1ed04923d68f32b",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "barulhento"
+          }
+        },
+        {
+          "id": "4-r2c2",
+          "label": "malvado",
+          "position": [
+            2,
+            2
+          ],
+          "symbol": "18a5938fa43e3716",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "malvado"
+          }
+        },
+        {
+          "id": "4-r2c3",
+          "label": "ir para lista",
+          "position": [
+            2,
+            3
+          ],
+          "symbol": "f5fe34b2295ade2c",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "lista"
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "4-s0",
+          "label": "voltar para a página 1",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "40a528a3d21f4dc5",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "1a"
+          }
+        },
+        {
+          "id": "4-s1",
+          "label": "ooops",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "f78988941e41aad8",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Ooops! Eu me enganei."
+          }
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Algo está errado",
+      "rows": 3,
+      "columns": 4,
+      "buttons": [
+        {
+          "id": "5-r0c0",
+          "label": "doente",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "b832bba3e7a55229",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "6"
+          }
+        },
+        {
+          "id": "5-r0c1",
+          "label": "desconfortável",
+          "position": [
+            0,
+            1
+          ],
+          "symbol": "e80b6663590ed912",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "desconfortável"
+          }
+        },
+        {
+          "id": "5-r0c2",
+          "label": "cansado",
+          "position": [
+            0,
+            2
+          ],
+          "symbol": "f97c9899ccd04b52",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "cansado"
+          }
+        },
+        {
+          "id": "5-r0c3",
+          "label": "eu quero alguém",
+          "position": [
+            0,
+            3
+          ],
+          "symbol": "9d0bc018a302fad7",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "9"
+          }
+        },
+        {
+          "id": "5-r1c0",
+          "label": "machucado",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "95211f0efe6918d8",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "6"
+          }
+        },
+        {
+          "id": "5-r1c1",
+          "label": "bateu",
+          "position": [
+            1,
+            1
+          ],
+          "symbol": "c30dbd12471d953f",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "6"
+          }
+        },
+        {
+          "id": "5-r1c2",
+          "label": "bravo",
+          "position": [
+            1,
+            2
+          ],
+          "symbol": "3a968823162982d8",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "bravo"
+          }
+        },
+        {
+          "id": "5-r1c3",
+          "label": "fique comigo",
+          "position": [
+            1,
+            3
+          ],
+          "symbol": "3f9ce111bc74829b",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Fique comigo, por favor."
+          }
+        },
+        {
+          "id": "5-r2c0",
+          "label": "coceira",
+          "position": [
+            2,
+            0
+          ],
+          "symbol": "3d4b15ac1d67d715",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "6"
+          }
+        },
+        {
+          "id": "5-r2c1",
+          "label": "cortar",
+          "position": [
+            2,
+            1
+          ],
+          "symbol": "ee8aa8097c5e2bb2",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "6"
+          }
+        },
+        {
+          "id": "5-r2c2",
+          "label": "triste",
+          "position": [
+            2,
+            2
+          ],
+          "symbol": "704350b6e96eb175",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "triste"
+          }
+        },
+        {
+          "id": "5-r2c3",
+          "label": "virar a página",
+          "position": [
+            2,
+            3
+          ],
+          "symbol": "8c98a51e4177368c",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "5b"
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "5-s0",
+          "label": "voltar para a página 1",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "74afded671da6e14",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "1a"
+          }
+        },
+        {
+          "id": "5-s1",
+          "label": "ooops",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "f78988941e41aad8",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Ooops! Eu me enganei."
+          }
+        }
+      ]
+    },
+    {
+      "id": "9",
+      "name": "Pessoas",
+      "rows": 3,
+      "columns": 4,
+      "buttons": [
+        {
+          "id": "9-r0c0",
+          "label": "eu",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "837b6ac29284f024",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "eu"
+          }
+        },
+        {
+          "id": "9-r0c1",
+          "label": "Vovó Sônia",
+          "position": [
+            0,
+            1
+          ],
+          "symbol": "75b9f03562d04c4f",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "Vovó Sônia"
+          }
+        },
+        {
+          "id": "9-r0c2",
+          "label": "menino",
+          "position": [
+            0,
+            2
+          ],
+          "symbol": "c8d88bddfa80e784",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "menino"
+          }
+        },
+        {
+          "id": "9-r0c3",
+          "label": "amigos",
+          "position": [
+            0,
+            3
+          ],
+          "symbol": "e22e3ca8c6530e30",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "9a"
+          }
+        },
+        {
+          "id": "9-r1c0",
+          "label": "Pai Kleber",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "a3b0ef4fb3d83f1f",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "meu pai"
+          }
+        },
+        {
+          "id": "9-r1c1",
+          "label": "Vovô Adenir",
+          "position": [
+            1,
+            1
+          ],
+          "symbol": "c9337b7b3eaef5be",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "Vovô Adenir"
+          }
+        },
+        {
+          "id": "9-r1c2",
+          "label": "menina",
+          "position": [
+            1,
+            2
+          ],
+          "symbol": "b8b74f8a7f47dc6f",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "menina"
+          }
+        },
+        {
+          "id": "9-r2c0",
+          "label": "Mãe Camila",
+          "position": [
+            2,
+            0
+          ],
+          "symbol": "bc202eeac865aefc",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "minha mãe"
+          }
+        },
+        {
+          "id": "9-r2c1",
+          "label": "tio",
+          "position": [
+            2,
+            1
+          ],
+          "symbol": "44294452212f2ed7",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "tio"
+          }
+        },
+        {
+          "id": "9-r2c2",
+          "label": "tia",
+          "position": [
+            2,
+            2
+          ],
+          "symbol": "d4dbc6b8bacf5980",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "tia"
+          }
+        },
+        {
+          "id": "9-r2c3",
+          "label": "virar a página",
+          "position": [
+            2,
+            3
+          ],
+          "symbol": "8c98a51e4177368c",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "9a"
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "9-s0",
+          "label": "voltar para a página 1",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "da471fd2faa1a9fa",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "1a"
+          }
+        },
+        {
+          "id": "9-s1",
+          "label": "ooops",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "f78988941e41aad8",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Ooops! Eu me enganei."
+          }
+        }
+      ]
+    },
+    {
+      "id": "9a",
+      "name": "Amigos",
+      "rows": 3,
+      "columns": 4,
+      "buttons": [
+        {
+          "id": "9a-r0c0",
+          "label": "Profa Priscila",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "b31bb3125ffc9360",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "Professora Priscila"
+          }
+        },
+        {
+          "id": "9a-r1c0",
+          "label": "Tia Natália",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "e3017f1d92b45216",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "Tia Natália"
+          }
+        },
+        {
+          "id": "9a-r1c1",
+          "label": "Tia Vivi",
+          "position": [
+            1,
+            1
+          ],
+          "symbol": "07b6aa38f8b1615b",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "Tia Vivi"
+          }
+        },
+        {
+          "id": "9a-r2c3",
+          "label": "outra pessoa",
+          "position": [
+            2,
+            3
+          ],
+          "symbol": "b3728cb9190831fc",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "lista"
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "9a-s0",
+          "label": "voltar para a página 1",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "95c49486a3fd26c4",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "1a"
+          }
+        },
+        {
+          "id": "9a-s1",
+          "label": "ooops",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "f78988941e41aad8",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Ooops! Eu me enganei."
+          }
+        },
+        {
+          "id": "9a-s2",
+          "label": "voltar para a página 9",
+          "position": [
+            2,
+            0
+          ],
+          "symbol": "803d4f301162def5",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "9"
+          }
+        }
+      ]
+    },
+    {
+      "id": "10a",
+      "name": "Ações",
+      "rows": 3,
+      "columns": 4,
+      "buttons": [
+        {
+          "id": "10a-r0c0",
+          "label": "não",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "b85c8a7cea84d3b3",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "não"
+          }
+        },
+        {
+          "id": "10a-r0c1",
+          "label": "pegar",
+          "position": [
+            0,
+            1
+          ],
+          "symbol": "662a25d1c98352c7",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "pegar"
+          }
+        },
+        {
+          "id": "10a-r0c2",
+          "label": "ir",
+          "position": [
+            0,
+            2
+          ],
+          "symbol": "c669e00379e7c75b",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "ir"
+          }
+        },
+        {
+          "id": "10a-r0c3",
+          "label": "gostar",
+          "position": [
+            0,
+            3
+          ],
+          "symbol": "a58592c756d3d9cf",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "gostar"
+          }
+        },
+        {
+          "id": "10a-r1c0",
+          "label": "fazer",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "fdf92cffecac5e4d",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "fazer"
+          }
+        },
+        {
+          "id": "10a-r1c1",
+          "label": "dar",
+          "position": [
+            1,
+            1
+          ],
+          "symbol": "4f8c2010a99f6d1c",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "dar"
+          }
+        },
+        {
+          "id": "10a-r1c2",
+          "label": "vir",
+          "position": [
+            1,
+            2
+          ],
+          "symbol": "8f0399bdec0904ba",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "vir"
+          }
+        },
+        {
+          "id": "10a-r1c3",
+          "label": "movimentos",
+          "position": [
+            1,
+            3
+          ],
+          "symbol": "91652c0a812cfb45",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "10d"
+          }
+        },
+        {
+          "id": "10a-r2c0",
+          "label": "ver",
+          "position": [
+            2,
+            0
+          ],
+          "symbol": "e95208ebbb18cf80",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "ver"
+          }
+        },
+        {
+          "id": "10a-r2c1",
+          "label": "falar",
+          "position": [
+            2,
+            1
+          ],
+          "symbol": "19f6dfdfef29df54",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "falar"
+          }
+        },
+        {
+          "id": "10a-r2c2",
+          "label": "AVD",
+          "position": [
+            2,
+            2
+          ],
+          "symbol": "0a9c02d59b8286d5",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "10b"
+          }
+        },
+        {
+          "id": "10a-r2c3",
+          "label": "virar a página",
+          "position": [
+            2,
+            3
+          ],
+          "symbol": "700cb26d6474b581",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "10b"
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "10a-s0",
+          "label": "voltar para a página 1",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "da471fd2faa1a9fa",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "1a"
+          }
+        },
+        {
+          "id": "10a-s1",
+          "label": "ooops",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "f78988941e41aad8",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Ooops! Eu me enganei."
+          }
+        }
+      ]
+    },
+    {
+      "id": "11a",
+      "name": "Atividades",
+      "rows": 3,
+      "columns": 4,
+      "buttons": [
+        {
+          "id": "11a-r0c0",
+          "label": "não",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "1043e2c4ee712b3e",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "não"
+          }
+        },
+        {
+          "id": "11a-r0c1",
+          "label": "abraçar",
+          "position": [
+            0,
+            1
+          ],
+          "symbol": "2a72b38027bb031c",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "abraçar"
+          }
+        },
+        {
+          "id": "11a-r0c2",
+          "label": "comer ou beber",
+          "position": [
+            0,
+            2
+          ],
+          "symbol": "bfbd2893832860fb",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "18"
+          }
+        },
+        {
+          "id": "11a-r0c3",
+          "label": "atividades externas",
+          "position": [
+            0,
+            3
+          ],
+          "symbol": "3fffce71715a18b5",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "11e"
+          }
+        },
+        {
+          "id": "11a-r1c0",
+          "label": "querer",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "e1afcba8602756b0",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "querer"
+          }
+        },
+        {
+          "id": "11a-r1c1",
+          "label": "descansar",
+          "position": [
+            1,
+            1
+          ],
+          "symbol": "2033c24f56849d71",
+          "labelInImage": true,
+          "action": {
+            "type": "addWord",
+            "word": "descansar"
+          }
+        },
+        {
+          "id": "11a-r1c2",
+          "label": "brinquedo",
+          "position": [
+            1,
+            2
+          ],
+          "symbol": "6e2afb7f5bd94055",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "11c"
+          }
+        },
+        {
+          "id": "11a-r1c3",
+          "label": "brincadeiras com água",
+          "position": [
+            1,
+            3
+          ],
+          "symbol": "104e2cb15d76de6a",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "43"
+          }
+        },
+        {
+          "id": "11a-r2c0",
+          "label": "música",
+          "position": [
+            2,
+            0
+          ],
+          "symbol": "9dd40a872ee0844b",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "28"
+          }
+        },
+        {
+          "id": "11a-r2c1",
+          "label": "assistir",
+          "position": [
+            2,
+            1
+          ],
+          "symbol": "2e8a9ccaa90a12bc",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "27"
+          }
+        },
+        {
+          "id": "11a-r2c2",
+          "label": "livro",
+          "position": [
+            2,
+            2
+          ],
+          "symbol": "279126d627d13af6",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "29"
+          }
+        },
+        {
+          "id": "11a-r2c3",
+          "label": "virar a página",
+          "position": [
+            2,
+            3
+          ],
+          "symbol": "b006d4818b147d52",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "11b"
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "11a-s0",
+          "label": "voltar para a página 1",
+          "position": [
+            0,
+            0
+          ],
+          "symbol": "da471fd2faa1a9fa",
+          "labelInImage": true,
+          "action": {
+            "type": "navigate",
+            "target": "1a"
+          }
+        },
+        {
+          "id": "11a-s1",
+          "label": "ooops",
+          "position": [
+            1,
+            0
+          ],
+          "symbol": "f78988941e41aad8",
+          "labelInImage": true,
+          "action": {
+            "type": "speak",
+            "text": "Ooops! Eu me enganei."
+          }
+        }
+      ]
+    },
+    {
+      "id": "10b",
+      "name": "Página 10b",
+      "rows": 1,
+      "columns": 1,
+      "buttons": [
+        {
+          "id": "10b-aviso",
+          "label": "Esta parte do livro ainda não foi digitalizada",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "action": {
+            "type": "speak",
+            "text": "Esta parte do livro ainda não foi digitalizada."
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "10b-voltar",
+          "label": "voltar",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "symbol": "voltar",
+          "action": {
+            "type": "back"
+          }
+        }
+      ]
+    },
+    {
+      "id": "10d",
+      "name": "Página 10d",
+      "rows": 1,
+      "columns": 1,
+      "buttons": [
+        {
+          "id": "10d-aviso",
+          "label": "Esta parte do livro ainda não foi digitalizada",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "action": {
+            "type": "speak",
+            "text": "Esta parte do livro ainda não foi digitalizada."
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "10d-voltar",
+          "label": "voltar",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "symbol": "voltar",
+          "action": {
+            "type": "back"
+          }
+        }
+      ]
+    },
+    {
+      "id": "11b",
+      "name": "Página 11b",
+      "rows": 1,
+      "columns": 1,
+      "buttons": [
+        {
+          "id": "11b-aviso",
+          "label": "Esta parte do livro ainda não foi digitalizada",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "action": {
+            "type": "speak",
+            "text": "Esta parte do livro ainda não foi digitalizada."
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "11b-voltar",
+          "label": "voltar",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "symbol": "voltar",
+          "action": {
+            "type": "back"
+          }
+        }
+      ]
+    },
+    {
+      "id": "11c",
+      "name": "Página 11c",
+      "rows": 1,
+      "columns": 1,
+      "buttons": [
+        {
+          "id": "11c-aviso",
+          "label": "Esta parte do livro ainda não foi digitalizada",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "action": {
+            "type": "speak",
+            "text": "Esta parte do livro ainda não foi digitalizada."
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "11c-voltar",
+          "label": "voltar",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "symbol": "voltar",
+          "action": {
+            "type": "back"
+          }
+        }
+      ]
+    },
+    {
+      "id": "11e",
+      "name": "Página 11e",
+      "rows": 1,
+      "columns": 1,
+      "buttons": [
+        {
+          "id": "11e-aviso",
+          "label": "Esta parte do livro ainda não foi digitalizada",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "action": {
+            "type": "speak",
+            "text": "Esta parte do livro ainda não foi digitalizada."
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "11e-voltar",
+          "label": "voltar",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "symbol": "voltar",
+          "action": {
+            "type": "back"
+          }
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "name": "Página 12",
+      "rows": 1,
+      "columns": 1,
+      "buttons": [
+        {
+          "id": "12-aviso",
+          "label": "Esta parte do livro ainda não foi digitalizada",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "action": {
+            "type": "speak",
+            "text": "Esta parte do livro ainda não foi digitalizada."
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "12-voltar",
+          "label": "voltar",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "symbol": "voltar",
+          "action": {
+            "type": "back"
+          }
+        }
+      ]
+    },
+    {
+      "id": "18",
+      "name": "Página 18",
+      "rows": 1,
+      "columns": 1,
+      "buttons": [
+        {
+          "id": "18-aviso",
+          "label": "Esta parte do livro ainda não foi digitalizada",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "action": {
+            "type": "speak",
+            "text": "Esta parte do livro ainda não foi digitalizada."
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "18-voltar",
+          "label": "voltar",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "symbol": "voltar",
+          "action": {
+            "type": "back"
+          }
+        }
+      ]
+    },
+    {
+      "id": "27",
+      "name": "Página 27",
+      "rows": 1,
+      "columns": 1,
+      "buttons": [
+        {
+          "id": "27-aviso",
+          "label": "Esta parte do livro ainda não foi digitalizada",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "action": {
+            "type": "speak",
+            "text": "Esta parte do livro ainda não foi digitalizada."
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "27-voltar",
+          "label": "voltar",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "symbol": "voltar",
+          "action": {
+            "type": "back"
+          }
+        }
+      ]
+    },
+    {
+      "id": "28",
+      "name": "Página 28",
+      "rows": 1,
+      "columns": 1,
+      "buttons": [
+        {
+          "id": "28-aviso",
+          "label": "Esta parte do livro ainda não foi digitalizada",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "action": {
+            "type": "speak",
+            "text": "Esta parte do livro ainda não foi digitalizada."
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "28-voltar",
+          "label": "voltar",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "symbol": "voltar",
+          "action": {
+            "type": "back"
+          }
+        }
+      ]
+    },
+    {
+      "id": "29",
+      "name": "Página 29",
+      "rows": 1,
+      "columns": 1,
+      "buttons": [
+        {
+          "id": "29-aviso",
+          "label": "Esta parte do livro ainda não foi digitalizada",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "action": {
+            "type": "speak",
+            "text": "Esta parte do livro ainda não foi digitalizada."
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "29-voltar",
+          "label": "voltar",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "symbol": "voltar",
+          "action": {
+            "type": "back"
+          }
+        }
+      ]
+    },
+    {
+      "id": "43",
+      "name": "Página 43",
+      "rows": 1,
+      "columns": 1,
+      "buttons": [
+        {
+          "id": "43-aviso",
+          "label": "Esta parte do livro ainda não foi digitalizada",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "action": {
+            "type": "speak",
+            "text": "Esta parte do livro ainda não foi digitalizada."
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "43-voltar",
+          "label": "voltar",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "symbol": "voltar",
+          "action": {
+            "type": "back"
+          }
+        }
+      ]
+    },
+    {
+      "id": "5b",
+      "name": "Página 5b",
+      "rows": 1,
+      "columns": 1,
+      "buttons": [
+        {
+          "id": "5b-aviso",
+          "label": "Esta parte do livro ainda não foi digitalizada",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "action": {
+            "type": "speak",
+            "text": "Esta parte do livro ainda não foi digitalizada."
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "5b-voltar",
+          "label": "voltar",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "symbol": "voltar",
+          "action": {
+            "type": "back"
+          }
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "name": "Página 6",
+      "rows": 1,
+      "columns": 1,
+      "buttons": [
+        {
+          "id": "6-aviso",
+          "label": "Esta parte do livro ainda não foi digitalizada",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "action": {
+            "type": "speak",
+            "text": "Esta parte do livro ainda não foi digitalizada."
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "6-voltar",
+          "label": "voltar",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "symbol": "voltar",
+          "action": {
+            "type": "back"
+          }
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "name": "Página 8",
+      "rows": 1,
+      "columns": 1,
+      "buttons": [
+        {
+          "id": "8-aviso",
+          "label": "Esta parte do livro ainda não foi digitalizada",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "action": {
+            "type": "speak",
+            "text": "Esta parte do livro ainda não foi digitalizada."
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "8-voltar",
+          "label": "voltar",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "symbol": "voltar",
+          "action": {
+            "type": "back"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lista",
+      "name": "Página lista",
+      "rows": 1,
+      "columns": 1,
+      "buttons": [
+        {
+          "id": "lista-aviso",
+          "label": "Esta parte do livro ainda não foi digitalizada",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "action": {
+            "type": "speak",
+            "text": "Esta parte do livro ainda não foi digitalizada."
+          }
+        }
+      ],
+      "sidebar": [
+        {
+          "id": "lista-voltar",
+          "label": "voltar",
+          "position": [
+            0,
+            0
+          ],
+          "wordClass": "system",
+          "symbol": "voltar",
+          "action": {
+            "type": "back"
+          }
+        }
+      ]
+    }
+  ]
+}

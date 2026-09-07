@@ -66,6 +66,35 @@ class _AacButtonWidgetState extends State<AacButtonWidget> {
                 GigioTypography.buttonLabelMax,
               );
 
+              if (button.labelInImage) {
+                return Stack(
+                  children: [
+                    Positioned.fill(
+                      child: SymbolView(
+                        symbolId: button.symbolId ?? '',
+                        fallbackLabel: button.label,
+                      ),
+                    ),
+                    if (widget.isEditing)
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: DecoratedBox(
+                          decoration: const BoxDecoration(
+                            color: GigioColors.surface,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.edit,
+                            size: 16,
+                            color: GigioColors.editModeAccent,
+                          ),
+                        ),
+                      ),
+                  ],
+                );
+              }
+
               return Container(
                 decoration: BoxDecoration(
                   color: background,
