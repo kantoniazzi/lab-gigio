@@ -79,3 +79,22 @@ kotlin {
 flutter {
     source = "../.."
 }
+
+dependencies {
+    // O SDK Android do Datadog traz o WorkManager transitivamente, para agendar
+    // o envio de dados em segundo plano — e junto vinha o Room 2.5.0, de 2023.
+    //
+    // Num aparelho com Android 16 e compileSdk 37, esse Room falha ao criar o
+    // WorkDatabase e derruba o app ANTES da primeira tela:
+    //
+    //   Unable to get provider androidx.startup.InitializationProvider
+    //   Caused by: Failed to create an instance of androidx.work.impl.WorkDatabase
+    //
+    // Num app de comunicação, isso significa a criança sem acesso à voz dela.
+    // Declaramos as versões atuais aqui, explicitamente, para que fiquem
+    // visíveis no arquivo do app em vez de escondidas na árvore de um terceiro.
+    //
+    // NÃO REMOVER sem testar a abertura num aparelho com Android recente.
+    implementation("androidx.work:work-runtime:2.11.2")
+    implementation("androidx.room:room-runtime:2.8.4")
+}
