@@ -16,6 +16,7 @@ import 'package:gigio/engines/auth/auth_service.dart';
 import 'package:gigio/engines/auth/google_auth_service.dart';
 import 'package:gigio/engines/speech/native_tts_provider.dart';
 import 'package:datadog_flutter_plugin/datadog_flutter_plugin.dart';
+import 'package:datadog_session_replay/datadog_session_replay.dart';
 import 'package:gigio/engines/telemetry/device_context.dart';
 import 'package:gigio/engines/telemetry/http_telemetry.dart';
 import 'package:gigio/engines/telemetry/perfil_usuario.dart';
@@ -41,7 +42,7 @@ const _telemetriaUrl = String.fromEnvironment('GIGIO_TELEMETRIA_URL');
 /// histórico.
 const _ddClientToken = String.fromEnvironment('GIGIO_DD_CLIENT_TOKEN');
 const _ddAppId = String.fromEnvironment('GIGIO_DD_APP_ID');
-const _ddEnv = String.fromEnvironment('GIGIO_DD_ENV', defaultValue: 'familia');
+const _ddEnv = String.fromEnvironment('GIGIO_DD_ENV', defaultValue: 'prod');
 
 /// Client ID do OAuth do Google para iOS, injetado em build:
 ///   --dart-define=GIGIO_GOOGLE_CLIENT_ID=...apps.googleusercontent.com
@@ -92,14 +93,37 @@ Future<void> main() async {
       );
 
   if (telemetria is RumTelemetry) {
+    final configuracao = construirConfiguracaoDatadog(
+      clientToken: _ddClientToken,
+      applicationId: _ddAppId,
+      env: _ddEnv,
+      temConsentimento: () => telemetria.consentimentoAtivo,
+    )..enableSessionReplay(
+        DatadogSessionReplayConfiguration(
+          // 100% das sessões amostradas pelo RUM terão gravação.
+          replaySampleRate: 100,
+
+          // Mostra o texto, mas mantém mascarado tudo que for campo protegido —
+          // o PIN do cuidador usa `obscureText` e continua invisível.
+          textAndInputPrivacyLevel: TextAndInputPrivacyLevel.maskSensitiveInputs,
+
+          // Grava apenas imagens embarcadas no app. Com `maskAll` (o padrão) o
+          // board apareceria em branco e a gravação seria inútil; com
+          // `maskNone` entrariam também imagens vindas da rede.
+          //
+          // ATENÇÃO: os pictogramas PODD e as FOTOS DA FAMÍLIA E DAS
+          // TERAPEUTAS são assets embarcados, então aparecem na gravação.
+          // Ver docs/telemetria.md.
+          imagePrivacyLevel: ImagePrivacyLevel.maskNonAssetsOnly,
+
+          // Mostra onde a criança tocou — é o ponto da gravação.
+          touchPrivacyLevel: TouchPrivacyLevel.show,
+        ),
+      );
+
     // `runApp` do Datadog embrulha a zona de erro para capturar travamentos.
     await DatadogSdk.runApp(
-      construirConfiguracaoDatadog(
-        clientToken: _ddClientToken,
-        applicationId: _ddAppId,
-        env: _ddEnv,
-        temConsentimento: () => telemetria.consentimentoAtivo,
-      ),
+      configuracao,
       // Começa como `granted` para que erros e travamentos — que são técnicos e
       // não descrevem comunicação — sempre subam. O conteúdo (telas e toques) é
       // barrado na origem e de novo pelos event mappers.
@@ -188,8 +212,28 @@ Future<TelemetryService> _construirTelemetria(PerfilAutenticado? autenticado) as
 class GigioApp extends StatelessWidget {
   const GigioApp({super.key});
 
+  static final _chaveCaptura = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
+    final app = _construirApp();
+
+    // A gravação só envolve a árvore quando o SDK e o Session Replay estão de
+    // pé. Sem isso, o app roda igual — telemetria jamais pode ser pré-requisito
+    // para a criança falar.
+    final rum = DatadogSdk.instance.rum;
+    final replay = DatadogSessionReplay.instance;
+    if (rum == null || replay == null) return app;
+
+    return SessionReplayCapture(
+      key: _chaveCaptura,
+      rum: rum,
+      sessionReplay: replay,
+      child: app,
+    );
+  }
+
+  Widget _construirApp() {
     return MaterialApp(
       title: 'Gigio',
       debugShowCheckedModeBanner: false,

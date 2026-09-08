@@ -44,6 +44,7 @@ dependencies:
   datadog_flutter_plugin: ^2.16.1
   device_info_plus: ^13.2.0
   google_sign_in: ^7.2.0
+  datadog_session_replay: ^1.0.0-preview.7
 
 dev_dependencies:
   flutter_test:

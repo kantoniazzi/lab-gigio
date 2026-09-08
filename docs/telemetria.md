@@ -171,3 +171,42 @@ flutter build ios --release \
 
 Sem as duas primeiras, o app cai para o Worker; sem nenhuma, para a
 implementação vazia, e **nenhuma rede é feita**.
+
+
+---
+
+## Session Replay
+
+Ligado a **100%** das sessões amostradas pelo RUM (`replaySampleRate: 100`).
+Ambiente: **`prod`**.
+
+### Níveis de privacidade e por que cada um
+
+| Ajuste | Valor | Motivo |
+|---|---|---|
+| `textAndInputPrivacyLevel` | `maskSensitiveInputs` | Mostra o texto da interface, mas mantém oculto o que for campo protegido. O **PIN do cuidador** usa `obscureText` e continua invisível na gravação |
+| `imagePrivacyLevel` | `maskNonAssetsOnly` | Grava só imagens embarcadas. Com o padrão `maskAll` o board apareceria em branco e a gravação seria inútil |
+| `touchPrivacyLevel` | `show` | Mostrar onde a criança tocou é o ponto da gravação |
+
+### O que isso implica, dito de forma direta
+
+A gravação reconstrói visualmente a Gigi se comunicando: os símbolos que ela
+toca, a barra de frase com as palavras dela, a sequência inteira.
+
+E os pictogramas PODD **e as fotos de pessoas** são assets embarcados — então
+aparecem. Isso inclui **terceiros que não consentiram**: Profa Priscila, Tia
+Natália e Tia Vivi, cujas fotos estão na página de Pessoas do livro.
+
+Decisões anteriores sobre telemetria alcançavam dados da própria família. Esta
+alcança outras pessoas. Registrado como escolha consciente do usuário, para uso
+pessoal, em conta pessoal do Datadog, sem publicação comercial.
+
+**Se o Gigio deixar de ser familiar**, isto precisa ser revisto antes de
+qualquer outra coisa: gravar a tela de uma criança se comunicando, com rostos de
+terceiros, é o dado mais sensível que este app pode produzir.
+
+Para desligar sem mexer no resto: `replaySampleRate: 0`.
+
+### Observação sobre o pacote
+
+`datadog_session_replay` está em **preview** (`1.0.0-preview.7`). API pode mudar.
