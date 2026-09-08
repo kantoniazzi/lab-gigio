@@ -17,13 +17,22 @@ void main() {
       // outra camada pode abrir conexão. Se o núcleo de comunicação ganhar
       // acesso à rede, as frases da criança passam a poder vazar.
       final infratores = <String>[];
-      const permitido = 'lib/engines/telemetry';
+
+      // EXCEÇÕES, e cada uma enfraquece um pouco este alarme.
+      //
+      // - telemetry: envia eventos ao Datadog e ao Worker.
+      // - auth: fala com o Google para o login.
+      //
+      // Antes de acrescentar a terceira, pergunte se essa camada precisa mesmo
+      // de rede. Com duas exceções o teste ainda protege; com dez, ele vira
+      // decoração e as frases da Gigi passam a poder vazar por qualquer lugar.
+      const permitidos = ['lib/engines/telemetry', 'lib/engines/auth'];
 
       for (final file in Directory('lib')
           .listSync(recursive: true)
           .whereType<File>()
           .where((f) => f.path.endsWith('.dart'))) {
-        if (file.path.contains(permitido)) continue;
+        if (permitidos.any(file.path.contains)) continue;
         final fonte = file.readAsStringSync();
         for (final proibido in const [
           "import 'dart:io'",
@@ -40,7 +49,7 @@ void main() {
       }
 
       expect(infratores, isEmpty,
-          reason: 'Rede fora de $permitido:\n  ${infratores.join('\n  ')}');
+          reason: 'Rede fora de $permitidos:\n  ${infratores.join('\n  ')}');
     });
 
     test('conteúdo de comunicação exige consentimento no modelo', () {

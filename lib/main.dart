@@ -12,6 +12,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gigio/core/design_system/tokens/gigio_tokens.dart';
 import 'package:gigio/data/json_board_store.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:gigio/engines/auth/auth_service.dart';
+import 'package:gigio/engines/auth/google_auth_service.dart';
 import 'package:gigio/engines/speech/native_tts_provider.dart';
 import 'package:datadog_flutter_plugin/datadog_flutter_plugin.dart';
 import 'package:gigio/engines/telemetry/device_context.dart';
@@ -20,7 +22,7 @@ import 'package:gigio/engines/telemetry/perfil_usuario.dart';
 import 'package:gigio/engines/telemetry/rum_telemetry.dart';
 import 'package:gigio/engines/telemetry/telemetry_service.dart';
 import 'package:gigio/features/communication/communication_controller.dart';
-import 'package:gigio/features/communication/communication_screen.dart';
+import 'package:gigio/features/auth/auth_gate.dart';
 
 /// Endpoint do Worker de telemetria, injetado em tempo de build:
 ///   flutter build ios --dart-define=GIGIO_TELEMETRIA_URL=https://...
@@ -40,6 +42,13 @@ const _telemetriaUrl = String.fromEnvironment('GIGIO_TELEMETRIA_URL');
 const _ddClientToken = String.fromEnvironment('GIGIO_DD_CLIENT_TOKEN');
 const _ddAppId = String.fromEnvironment('GIGIO_DD_APP_ID');
 const _ddEnv = String.fromEnvironment('GIGIO_DD_ENV', defaultValue: 'familia');
+
+/// Client ID do OAuth do Google para iOS, injetado em build:
+///   --dart-define=GIGIO_GOOGLE_CLIENT_ID=...apps.googleusercontent.com
+///
+/// Sem ele o app **pula o login** e abre direto no board: uma build mal
+/// configurada não pode prender a criança numa tela da qual ela não sai.
+const _googleClientId = String.fromEnvironment('GIGIO_GOOGLE_CLIENT_ID');
 
 const _chaveConsentimento = 'gigio_consentimento_telemetria';
 const _chaveInstalacao = 'gigio_id_instalacao';
@@ -61,7 +70,14 @@ Future<void> main() async {
     DeviceOrientation.landscapeRight,
   ]);
 
-  final telemetria = await _construirTelemetria();
+  final AuthService auth = _googleClientId.isEmpty
+      ? const AuthDesativado()
+      : GoogleAuthService(clientId: _googleClientId);
+
+  // Lido do cofre local, sem rede: a sessão salva é a fonte de verdade.
+  final perfilInicial = await auth.perfilSalvo();
+
+  final telemetria = await _construirTelemetria(perfilInicial);
 
   void iniciar() => runApp(
         ProviderScope(
@@ -69,6 +85,7 @@ Future<void> main() async {
             boardRepositoryProvider.overrideWithValue(JsonBoardStore()),
             speechProvider.overrideWithValue(NativeTtsProvider()),
             telemetryProvider.overrideWithValue(telemetria),
+            authServiceProvider.overrideWithValue(auth),
           ],
           child: const GigioApp(),
         ),
@@ -88,10 +105,15 @@ Future<void> main() async {
       // barrado na origem e de novo pelos event mappers.
       TrackingConsent.granted,
       () async {
+        // Identidade da conta Google em todos os eventos, incluindo os de tela
+        // e toque. Decisão consciente do usuário, registrada em
+        // docs/telemetria.md: isso liga um e-mail real ao que a criança
+        // comunicou. Sem login, cai para o id de instalação anônimo.
         DatadogSdk.instance
           ..setUserInfo(
-            id: telemetria.perfil.idInstalacao,
+            id: telemetria.perfil.idParaTelemetria,
             name: telemetria.perfil.nomeParaTelemetria,
+            email: telemetria.perfil.email,
             extraInfo: telemetria.contextoDispositivo,
           )
           ..rum?.addAttribute('app_versao', telemetria.appVersion);
@@ -104,7 +126,7 @@ Future<void> main() async {
   iniciar();
 }
 
-Future<TelemetryService> _construirTelemetria() async {
+Future<TelemetryService> _construirTelemetria(PerfilAutenticado? autenticado) async {
   const cofre = FlutterSecureStorage();
 
   var consentiu = false;
@@ -138,7 +160,13 @@ Future<TelemetryService> _construirTelemetria() async {
       appVersion: '1.0.0',
       consentimentoInicial: consentiu,
       persistirConsentimento: persistir,
-      perfil: PerfilUsuario(idInstalacao: idInstalacao, apelido: apelido),
+      perfil: PerfilUsuario(
+        idInstalacao: idInstalacao,
+        apelido: apelido,
+        contaId: autenticado?.id,
+        email: autenticado?.email,
+        nomeConta: autenticado?.nome,
+      ),
       contextoDispositivo: (await DeviceContext.carregar()).toAttributes(),
     );
   }
@@ -173,7 +201,7 @@ class GigioApp extends StatelessWidget {
           surface: GigioColors.surface,
         ),
       ),
-      home: const CommunicationScreen(),
+      home: const AuthGate(),
     );
   }
 }

@@ -57,6 +57,20 @@
 	     (PBKDF2-HMAC-SHA256, localmente). Isso se enquadra na isenção de
 	     autenticação, então não há uso de criptografia não isenta. Declarar
 	     aqui evita que cada envio ao TestFlight pare para perguntar isso. -->
+	<!-- Client ID do OAuth do Google, invertido. O Google devolve o app aqui
+	     depois do login. É valor público por natureza: fica no binário e
+	     qualquer um pode extraí-lo. -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.417402288301-lpvc25sqsnobkq8nj3m1ub15c84a8tt8</string>
+			</array>
+		</dict>
+	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>UISupportedInterfaceOrientations</key>

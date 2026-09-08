@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gigio/core/design_system/tokens/gigio_tokens.dart';
 import 'package:gigio/core/result/result.dart';
 import 'package:gigio/features/communication/communication_controller.dart';
+import 'package:gigio/features/auth/auth_gate.dart';
 import 'package:gigio/features/editor/caregiver_pin_service.dart';
 
 final caregiverPinServiceProvider =
@@ -39,6 +40,36 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         Err(:final error) => error.message,
       }),
     ));
+  }
+
+  Future<void> _sair() async {
+    final confirmou = await showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Sair da conta?'),
+        content: const Text(
+          'Será preciso entrar de novo na próxima vez que o aplicativo abrir. '
+          'O board e as personalizações continuam no aparelho.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancelar'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Sair'),
+          ),
+        ],
+      ),
+    );
+    if (confirmou != true || !mounted) return;
+
+    await ref.read(authServiceProvider).sair();
+    if (!mounted) return;
+    ref.read(perfilProvider.notifier).definir(null);
+    // Volta ao portão, que vai mostrar o login.
+    Navigator.of(context).popUntil((rota) => rota.isFirst);
   }
 
   Future<void> _alternarConsentimento(bool ativo) async {
@@ -81,6 +112,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               trailing: const Icon(Icons.chevron_right),
               onTap: _trocarPin,
             ),
+            if (ref.watch(authServiceProvider).disponivel)
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: const Icon(Icons.logout),
+                title: const Text('Sair da conta'),
+                subtitle: Text(
+                  ref.watch(perfilProvider)?.nomeExibido ??
+                      'Nenhuma conta conectada',
+                  style: GigioTypography.caption,
+                ),
+                onTap: _sair,
+              ),
             const Divider(height: GigioSpacing.xxl),
 
             const Text('Privacidade', style: GigioTypography.heading),
