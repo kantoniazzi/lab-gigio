@@ -51,6 +51,14 @@ const _ddEnv = String.fromEnvironment('GIGIO_DD_ENV', defaultValue: 'prod');
 /// configurada não pode prender a criança numa tela da qual ela não sai.
 const _googleClientId = String.fromEnvironment('GIGIO_GOOGLE_CLIENT_ID');
 
+/// Client ID do tipo **Web application**, exigido no Android:
+///   --dart-define=GIGIO_GOOGLE_SERVER_CLIENT_ID=...apps.googleusercontent.com
+///
+/// O client ID de Android não entra aqui — o Google o reconhece pela combinação
+/// de pacote + SHA-1.
+const _googleServerClientId =
+    String.fromEnvironment('GIGIO_GOOGLE_SERVER_CLIENT_ID');
+
 const _chaveConsentimento = 'gigio_consentimento_telemetria';
 const _chaveInstalacao = 'gigio_id_instalacao';
 const _chaveApelido = 'gigio_apelido_aparelho';
@@ -71,9 +79,13 @@ Future<void> main() async {
     DeviceOrientation.landscapeRight,
   ]);
 
-  final AuthService auth = _googleClientId.isEmpty
-      ? const AuthDesativado()
-      : GoogleAuthService(clientId: _googleClientId);
+  final AuthService auth =
+      _googleClientId.isEmpty && _googleServerClientId.isEmpty
+          ? const AuthDesativado()
+          : GoogleAuthService(
+              clientId: _googleClientId,
+              serverClientId: _googleServerClientId,
+            );
 
   // Lido do cofre local, sem rede: a sessão salva é a fonte de verdade.
   final perfilInicial = await auth.perfilSalvo();

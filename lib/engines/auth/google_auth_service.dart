@@ -9,7 +9,9 @@
 library;
 
 import 'dart:convert';
+import 'dart:io' show Platform;
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:gigio/core/errors/app_error.dart';
 import 'package:gigio/core/result/result.dart';
@@ -19,22 +21,48 @@ import 'package:google_sign_in/google_sign_in.dart';
 class GoogleAuthService implements AuthService {
   GoogleAuthService({
     required this.clientId,
+    this.serverClientId = '',
     FlutterSecureStorage? cofre,
   }) : _cofre = cofre ?? const FlutterSecureStorage();
 
   static const _chavePerfil = 'gigio_perfil_autenticado';
 
+  /// Client ID do OAuth para **iOS**.
   final String clientId;
+
+  /// Client ID do tipo **Web application**, exigido pelo `google_sign_in` v7
+  /// no Android — lá o login passa pelo Credential Manager, que precisa dele.
+  ///
+  /// Não confundir com o client ID de Android: aquele o Google reconhece pela
+  /// combinação de pacote + SHA-1, e não vai no código.
+  final String serverClientId;
+
   final FlutterSecureStorage _cofre;
 
   bool _iniciado = false;
 
+  /// No Android o que faz falta é o `serverClientId`; nas demais plataformas,
+  /// o `clientId`. Sem o necessário, o app abre direto no board em vez de
+  /// mostrar um login que não funcionaria.
   @override
-  bool get disponivel => clientId.isNotEmpty;
+  bool get disponivel =>
+      _ehAndroid ? serverClientId.isNotEmpty : clientId.isNotEmpty;
+
+  bool get _ehAndroid {
+    if (kIsWeb) return false;
+    try {
+      return Platform.isAndroid;
+    } on Object {
+      return false;
+    }
+  }
 
   Future<void> _garantirInicializado() async {
     if (_iniciado) return;
-    await GoogleSignIn.instance.initialize(clientId: clientId);
+    await GoogleSignIn.instance.initialize(
+      clientId: clientId.isEmpty ? null : clientId,
+      serverClientId: serverClientId.isEmpty ? null : serverClientId,
+    );
     _iniciado = true;
   }
 
