@@ -28,8 +28,13 @@ class SentenceBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasWords = sentence.isNotEmpty;
 
+    // Proporcional à tela, com piso e teto. Altura fixa comia um quarto da
+    // área útil num celular deitado, empurrando os cartões para um tamanho em
+    // que ficam difíceis de acertar.
+    final altura = (MediaQuery.of(context).size.height * 0.17).clamp(72.0, 120.0);
+
     return Container(
-      height: 104,
+      height: altura,
       margin: const EdgeInsets.fromLTRB(
         GigioSpacing.sm,
         GigioSpacing.sm,

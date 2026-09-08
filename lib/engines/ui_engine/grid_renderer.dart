@@ -39,10 +39,32 @@ class GridRenderer extends StatelessWidget {
           // colunas normais mais uma faixa lateral de 0.62 de célula.
           final sidebarUnits = page.sidebar.isEmpty ? 0.0 : 0.62;
           final horizontalGaps = gap * (page.columns - 1 + (sidebarUnits > 0 ? 1 : 0));
-          final cellWidth = (constraints.maxWidth - horizontalGaps) /
-              (page.columns + sidebarUnits);
-          final cellHeight =
-              (constraints.maxHeight - gap * (page.rows - 1)) / page.rows;
+          final verticalGaps = gap * (page.rows - 1);
+
+          // A célula acompanha a proporção do cartão do livro (quase quadrado).
+          //
+          // Sem isso, dividir a largura e a altura de forma independente produz
+          // células largas e baixas em telas panorâmicas — como um celular
+          // deitado. O desenho, que é quase quadrado, encolhe até caber na
+          // altura e deixa um vão horizontal enorme dentro de cada célula, e a
+          // grade parece esparramada.
+          //
+          // Fixando a proporção, a grade cresce até o limite da dimensão mais
+          // apertada e depois é centralizada, mantendo a aparência do livro em
+          // qualquer formato de tela.
+          const aspectoDoCartao = 1.0;
+          final unidadesHorizontais = page.columns + sidebarUnits;
+
+          final alturaPelaLargura =
+              (constraints.maxWidth - horizontalGaps) /
+                  (unidadesHorizontais * aspectoDoCartao);
+          final alturaPelaAltura =
+              (constraints.maxHeight - verticalGaps) / page.rows;
+
+          final cellHeight = alturaPelaLargura < alturaPelaAltura
+              ? alturaPelaLargura
+              : alturaPelaAltura;
+          final cellWidth = cellHeight * aspectoDoCartao;
 
           // Avisa quando a grade configurada não cabe com toque confortável.
           // Não bloqueamos a renderização: um botão pequeno ainda comunica,
@@ -61,53 +83,41 @@ class GridRenderer extends StatelessWidget {
             return true;
           }());
 
-          final grid = Column(
+          Widget coluna(double largura, Widget Function(int) celula) => Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (var row = 0; row < page.rows; row++) ...[
+                    if (row > 0) const SizedBox(height: gap),
+                    SizedBox(
+                      width: largura,
+                      height: cellHeight,
+                      child: celula(row),
+                    ),
+                  ],
+                ],
+              );
+
+          final grid = Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              for (var row = 0; row < page.rows; row++) ...[
-                if (row > 0) const SizedBox(height: gap),
-                SizedBox(
-                  height: cellHeight,
-                  child: Row(
-                    children: [
-                      for (var col = 0; col < page.columns; col++) ...[
-                        if (col > 0) const SizedBox(width: gap),
-                        SizedBox(
-                          width: cellWidth,
-                          child: _buildCell(row, col),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
+              for (var col = 0; col < page.columns; col++) ...[
+                if (col > 0) const SizedBox(width: gap),
+                coluna(cellWidth, (row) => _buildCell(row, col)),
+              ],
+              // A coluna lateral fica fora da grade de propósito: no PODD a
+              // posição desses comandos é constante em todo o livro, e é isso
+              // que os torna confiáveis para quem navega por memória.
+              if (page.sidebar.isNotEmpty) ...[
+                const SizedBox(width: gap),
+                coluna(cellWidth * 0.62, _sidebarSlot),
               ],
             ],
           );
 
-          if (page.sidebar.isEmpty) return grid;
-
-          // A coluna lateral fica fora da grade de propósito: no PODD a posição
-          // desses comandos é constante em todo o livro, e é isso que os torna
-          // confiáveis para quem navega por memória.
-          return Row(
-            children: [
-              Expanded(child: grid),
-              const SizedBox(width: gap),
-              SizedBox(
-                width: cellWidth * 0.62,
-                child: Column(
-                  children: [
-                    for (var row = 0; row < page.rows; row++) ...[
-                      if (row > 0) const SizedBox(height: gap),
-                      SizedBox(
-                        height: cellHeight,
-                        child: _sidebarSlot(row),
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-            ],
-          );
+          // Centralizada: com proporção fixa sobra espaço na dimensão mais
+          // folgada, e distribuí-lo em volta fica melhor que empurrar tudo
+          // para um canto.
+          return Center(child: grid);
         },
       ),
     );
